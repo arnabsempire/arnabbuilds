@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Tailwind covers everything except four things it has no utilities for:
+ * CSS Motion Path, scroll-driven timelines, SVG geometry properties, and the
+ * global reduced-motion reset. Those live here and nowhere else.
+ */
+
+@layer base {
+  :root { color-scheme: light; }
+  body { @apply bg-paper text-ink antialiased; }
+  h1, h2, h3, h4 { @apply font-display font-bold m-0; }
+
+  /* One visible focus ring for the whole site. */
+  a:focus-visible,
+  button:focus-visible {
+    @apply outline-none ring-[3px] ring-brand ring-offset-[3px] ring-offset-paper rounded-md;
+  }
+  .on-night a:focus-visible,
+  .on-night button:focus-visible {
+    @apply ring-brand-light ring-offset-night;
+  }
+}
+
+@layer components {
+  /* Word emphasis. The resting state is static and legible; the sweep is an
+     enhancement, never a loop. */
+  .focus-word {
+    @apply inline-block rounded-[3px] bg-no-repeat;
+    background-image: linear-gradient(#6EE7B7, #6EE7B7);
+    background-position: 0 92%;
+    background-size: 100% 0.14em;
+  }
+  .focus-word--off { background-size: 0% 0.14em; }
+}
+
+@layer utilities {
+  /* --- route band: plane follows the curve ---------------------------- */
+  .route-plane {
+    transform-box: view-box;
+    offset-path: path('M 60 200 Q 400 30 720 110 T 1140 70');
+    offset-rotate: auto;
+    offset-distance: 26%;   /* resting position where scroll timelines are unsupported */
+    color: #F8FAFC;
+  }
+
+  /* Scroll-driven animation is not Baseline (no Firefox). The effect is
+     decorative, so this is progressive enhancement with no JS fallback —
+     Firefox simply shows the plane parked on a fully drawn route. */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports ((animation-timeline: view()) and (animation-range: entry)) {
+      @keyframes route-fly {
+        from { offset-distance: 0%; }
+        to { offset-distance: 100%; }
+      }
+      .route-plane { animation: route-fly auto linear both; }
+      .route-plane { animation-timeline: view(); animation-range: entry 10% exit 80%; }
+    }
+  }
+
+  /* SVG geometry has no Tailwind utilities, and an SVG that scales shrinks its
+     own text — a 17px label would render at ~5px on a phone. Everything inside
+     the route map is therefore sized per breakpoint in user units. */
+  .city-dot { fill: #0B1220; r: 16px; stroke-width: 7px; }
+  .city-name { @apply font-sans font-bold; fill: #E2E8F0; font-size: 46px; }
+  .city-sub { @apply font-sans font-medium; fill: #94A3B8; font-size: 38px; }
+  .route-line { stroke: #334155; fill: none; stroke-linecap: round; stroke-width: 5px; stroke-dasharray: 16 24; }
+  .below .city-name { transform: translateY(88px); }
+  .below .city-sub { transform: translateY(134px); }
+  .above .city-name { transform: translateY(-100px); }
+  .above .city-sub { transform: translateY(-54px); }
+
+  @container page (min-width: 720px) {
+    .city-dot { r: 10px; stroke-width: 4.5px; }
+    .city-name { font-size: 26px; }
+    .city-sub { font-size: 21px; }
+    .below .city-name { transform: translateY(52px); }
+    .below .city-sub { transform: translateY(80px); }
+    .above .city-name { transform: translateY(-54px); }
+    .above .city-sub { transform: translateY(-28px); }
+    .route-line { stroke-width: 3px; stroke-dasharray: 10 15; }
+  }
+  @container page (min-width: 1120px) {
+    .city-dot { r: 7px; stroke-width: 3.5px; }
+    .city-name { font-size: 17px; }
+    .city-sub { font-size: 14px; }
+    .below .city-name { transform: translateY(34px); }
+    .below .city-sub { transform: translateY(53px); }
+    .above .city-name { transform: translateY(-36px); }
+    .above .city-sub { transform: translateY(-18px); }
+    .route-line { stroke-width: 2px; stroke-dasharray: 7 11; }
+  }
+
+  /* --- closing flight -------------------------------------------------
+     X in cqw of the closing section so it scales with the viewport; Y in px
+     because the stage's heights are type-driven. Three paths because the
+     buttons stack on phones and sit side by side above 720px. */
+  .cl-plane { animation: cl-flight-s 3300ms cubic-bezier(.36,.06,.28,1) both; }
+  @container page (min-width: 720px) { .cl-plane { animation-name: cl-flight-m; } }
+  @container page (min-width: 1120px) { .cl-plane { animation-name: cl-flight-l; } }
+
+  @keyframes cl-flight-s {
+    0%   { opacity: 0; transform: translate(6cqw, 26px) rotate(-4deg); }
+    7%   { opacity: 1; }
+    22%  { transform: translate(30cqw, 16px) rotate(-2deg); }
+    42%  { transform: translate(54cqw, 12px) rotate(2deg); }
+    62%  { transform: translate(76cqw, 18px) rotate(8deg); }
+    80%  { transform: translate(70cqw, 150px) rotate(58deg); }
+    100% { opacity: 1; transform: translate(50cqw, 246px) rotate(6deg); }
+  }
+  @keyframes cl-flight-m {
+    0%   { opacity: 0; transform: translate(14cqw, 52px) rotate(-6deg); }
+    7%   { opacity: 1; }
+    22%  { transform: translate(33cqw, 30px) rotate(-3deg); }
+    42%  { transform: translate(50cqw, 24px) rotate(0deg); }
+    62%  { transform: translate(68cqw, 30px) rotate(7deg); }
+    80%  { transform: translate(72cqw, 130px) rotate(46deg); }
+    100% { opacity: 1; transform: translate(65.8cqw, 192px) rotate(5deg); }
+  }
+  @keyframes cl-flight-l {
+    0%   { opacity: 0; transform: translate(20cqw, 58px) rotate(-6deg); }
+    7%   { opacity: 1; }
+    22%  { transform: translate(39.6cqw, 32px) rotate(-3deg); }
+    42%  { transform: translate(50.3cqw, 26px) rotate(0deg); }
+    62%  { transform: translate(60.8cqw, 32px) rotate(7deg); }
+    80%  { transform: translate(60cqw, 132px) rotate(44deg); }
+    100% { opacity: 1; transform: translate(58.9cqw, 196px) rotate(5deg); }
+  }
+
+  .safe-bottom { padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)); }
+}
+
+/* Motion is opt-out at the platform level. This neutralises duration and
+   iteration count while preserving final states, so no layout collapses. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
