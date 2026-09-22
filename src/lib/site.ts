@@ -34,7 +34,7 @@ export const MARKET = {
     closingSecondary: { label: 'WhatsApp', href: SITE.whatsapp, external: true },
     heroNote:
       'Custom AI automation, conversion websites and web applications for businesses that cannot afford downtime.',
-    switchLabel: 'বাংলাদেশে আছেন?
+    switchLabel: 'বাংলাদেশে আছেন?',
     switchHref: '/bd',
   },
   bd: {
