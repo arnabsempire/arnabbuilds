@@ -2,23 +2,31 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { MessageCircle, Plane } from 'lucide-react';
-import { MARKET, type Market } from '@/lib/site';
+import { type Market } from '@/lib/site';
+import { COPY, type Action } from '@/lib/copy';
 import { PlaneIcon } from './Plane';
 
 const FLIGHT_MS = 3300;
 
+const SOLID =
+  'bg-brand text-white hover:bg-brand-deep hover:shadow-[0_10px_22px_rgba(4,120,87,.28)]';
+const GHOST = 'bg-white text-brand hover:bg-hue-emerald-tint';
+
 /**
  * The closing section is one continuous flight: the plane crosses each of the
- * three words in turn, banks down past the call button and settles with a
+ * three words in turn, banks down past the first button and settles with a
  * landing light on the WhatsApp button. User-triggered only — nothing moves
  * until the visitor hovers or presses, so it never becomes ambient motion.
  * The light fades up once and holds; it never pulses.
+ *
+ * Word order is read from copy because Bengali puts the verb last: the three
+ * words still arrive in sequence, but the question closes behind them.
  */
 export default function ClosingFlight({ market }: { market: Market }) {
   const [phase, setPhase] = useState<'idle' | 'flying' | 'landed'>('idle');
   const landTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const replayTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const cfg = MARKET[market];
+  const t = COPY[market].closing;
 
   useEffect(
     () => () => {
@@ -50,20 +58,27 @@ export default function ClosingFlight({ market }: { market: Market }) {
     </span>
   );
 
+  const skin = (a: Action) => (a.variant === 'solid' ? SOLID : `border-[1.5px] border-brand-tint ${GHOST}`);
+
   return (
     <section className="border-t border-brand-tint bg-hue-emerald-tint/60 py-14 @[720px]/page:py-20">
       <div className="mx-auto w-full max-w-[1312px] px-5 @[720px]/page:px-8 @[1120px]/page:px-14">
         <div className="relative text-center" onMouseEnter={takeOff}>
           <h2 className="mx-auto mb-4 max-w-[700px] text-h2">
-            <span className="block">Ready to</span>
-            <span className="flex flex-wrap justify-center gap-x-[0.34em]">
-              {word('620ms', 'automate')},{word('1180ms', 'build')} and{word('1720ms', 'scale?')}
+            {t.lead && <span className="block">{t.lead}</span>}
+            {/* Inline flow, not flex: a flex gap would open a space in front of
+                the comma. The separators carry their own spacing instead. */}
+            <span className="block">
+              {word('620ms', t.w1)}
+              {t.sep1}
+              {word('1180ms', t.w2)}
+              {t.sep2}
+              {word('1720ms', t.w3)}
+              {t.tail}
             </span>
           </h2>
 
-          <p className="mx-auto mb-2.5 max-w-[560px] text-lead text-ink-soft">
-            Two ways in: an international consultation call, or a direct WhatsApp line for Bangladesh.
-          </p>
+          <p className="mx-auto mb-2.5 max-w-[560px] text-lead text-ink-soft">{t.sub}</p>
 
           <p className="mb-6">
             <button
@@ -72,20 +87,21 @@ export default function ClosingFlight({ market }: { market: Market }) {
               className="inline-flex min-h-11 items-center gap-2 px-1 font-bold text-brand transition-colors duration-200 ease-fade hover:text-brand-deep"
             >
               <Plane size={17} aria-hidden="true" />
-              Take off
+              {t.takeOff}
             </button>
           </p>
 
           <div className="flex flex-col items-center justify-center gap-3 @[720px]/page:flex-row @[720px]/page:gap-4">
             <a
-              href={cfg.closingPrimary.href}
+              href={t.left.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-brand px-6 font-bold text-white transition-all duration-200 ease-move hover:-translate-y-0.5 hover:bg-brand-deep hover:shadow-[0_10px_22px_rgba(4,120,87,.28)] active:translate-y-0 active:scale-[.97] @[720px]/page:w-auto"
+              className={`inline-flex min-h-12 w-full items-center justify-center rounded-lg px-6 font-bold transition-all duration-200 ease-move hover:-translate-y-0.5 active:translate-y-0 active:scale-[.97] @[720px]/page:w-auto ${skin(t.left)}`}
             >
-              {cfg.closingPrimary.label}
+              {t.left.label}
             </a>
 
+            {/* The light always lands here, and this is always WhatsApp. */}
             <span className="relative inline-flex w-full @[720px]/page:w-auto">
               <span
                 aria-hidden="true"
@@ -96,17 +112,17 @@ export default function ClosingFlight({ market }: { market: Market }) {
                 }}
               />
               <a
-                href={cfg.closingSecondary.href}
+                href={t.right.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`relative inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg border-[1.5px] bg-white px-6 font-bold text-brand transition-all duration-200 ease-move hover:-translate-y-0.5 hover:bg-hue-emerald-tint active:translate-y-0 active:scale-[.97] @[720px]/page:w-auto ${
+                className={`relative inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg px-6 font-bold transition-all duration-200 ease-move hover:-translate-y-0.5 active:translate-y-0 active:scale-[.97] @[720px]/page:w-auto ${skin(t.right)} ${
                   landed
-                    ? 'border-brand-light shadow-[0_0_0_3px_rgba(110,231,183,.55),0_14px_38px_rgba(4,120,87,.4)]'
-                    : 'border-brand-tint'
+                    ? 'shadow-[0_0_0_3px_rgba(110,231,183,.55),0_14px_38px_rgba(4,120,87,.4)]'
+                    : ''
                 }`}
               >
                 <MessageCircle size={18} aria-hidden="true" />
-                {cfg.closingSecondary.label}
+                {t.right.label}
               </a>
             </span>
           </div>

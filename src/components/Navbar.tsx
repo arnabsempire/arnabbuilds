@@ -3,18 +3,13 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
-import { MARKET, SITE, type Market } from '@/lib/site';
-
-const LINKS = [
-  { href: '#about', label: 'About' },
-  { href: '#services', label: 'Services' },
-  { href: '#process', label: 'Process' },
-  { href: '#work', label: 'Portfolio' },
-];
+import { MARKET, type Market } from '@/lib/site';
+import { COPY } from '@/lib/copy';
 
 export default function Navbar({ market }: { market: Market }) {
   const [open, setOpen] = useState(false);
   const cfg = MARKET[market];
+  const t = COPY[market];
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-paper/90 backdrop-blur-md">
@@ -25,14 +20,14 @@ export default function Navbar({ market }: { market: Market }) {
         </Link>
 
         <nav className="hidden items-center gap-7 @[1120px]/page:flex">
-          {LINKS.map((l) => (
+          {t.nav.links.map((l) => (
             <a key={l.href} href={l.href} className="text-[15px] font-semibold text-ink transition-colors duration-200 ease-fade hover:text-brand">
               {l.label}
             </a>
           ))}
           <span className="flex items-center gap-2 text-[13px] font-semibold text-ink-soft">
             <span className="h-2.5 w-2.5 rounded-full bg-brand-dot shadow-[0_0_0_3px_rgba(16,185,129,.2)]" />
-            {SITE.status}
+            {t.nav.status}
           </span>
           <Link href={cfg.switchHref} className="text-[13px] font-bold text-brand hover:text-brand-deep">
             {cfg.switchLabel}
@@ -53,7 +48,7 @@ export default function Navbar({ market }: { market: Market }) {
 
       {open && (
         <nav id="mobile-nav" className="origin-top border-t border-line bg-white pb-4 pt-2 @[1120px]/page:hidden">
-          {LINKS.map((l) => (
+          {t.nav.links.map((l) => (
             <a
               key={l.href}
               href={l.href}
@@ -66,7 +61,7 @@ export default function Navbar({ market }: { market: Market }) {
           <div className="flex flex-col gap-3 px-5 pt-4">
             <span className="flex items-center gap-2 text-[13px] font-semibold text-ink-soft">
               <span className="h-2.5 w-2.5 rounded-full bg-brand-dot shadow-[0_0_0_3px_rgba(16,185,129,.2)]" />
-              {SITE.status}
+              {t.nav.status}
             </span>
             <Link href={cfg.switchHref} className="text-sm font-bold text-brand">
               {cfg.switchLabel}

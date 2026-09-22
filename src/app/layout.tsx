@@ -19,6 +19,29 @@ const manrope = localFont({
   preload: true,
 });
 
+/*
+ * Manrope carries no Bengali glyphs, so the Bangladesh page would otherwise
+ * fall back to whatever the visitor's device happens to ship — which on older
+ * Android renders conjuncts badly or not at all. Noto Sans Bengali is declared
+ * second in the stack and scoped with the subset's own unicode-range, so the
+ * browser downloads it only when Bengali characters are actually painted. The
+ * English page never requests it; /bd gets correct conjuncts and a real ৳.
+ */
+const bengali = localFont({
+  src: './fonts/noto-sans-bengali-bengali-wght-normal.woff2',
+  display: 'swap',
+  variable: '--font-bengali',
+  weight: '400 800',
+  preload: false,
+  declarations: [
+    {
+      prop: 'unicode-range',
+      value:
+        'U+0951-0952,U+0964-0965,U+0980-09FE,U+1CD0,U+1CD2,U+1CD5-1CD6,U+1CD8,U+1CE1,U+1CEA,U+1CED,U+1CF2,U+1CF5-1CF7,U+200C-200D,U+20B9,U+25CC,U+A8F1',
+    },
+  ],
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.domain),
   title: {
@@ -47,7 +70,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={manrope.variable}>
+    <html lang="en" className={`${manrope.variable} ${bengali.variable}`}>
       <body>
         <script
           type="application/ld+json"

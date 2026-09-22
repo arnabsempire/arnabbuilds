@@ -3,6 +3,8 @@
  * the international site shows NO prices and routes to Cal.com, while the
  * Bangladesh site shows transparent BDT pricing and routes to WhatsApp.
  * Every component takes a Market and reads from here rather than hardcoding.
+ *
+ * Prose lives in ./copy.ts. This file holds identity, links and funnel shape.
  */
 export type Market = 'intl' | 'bd';
 
@@ -30,24 +32,22 @@ export const MARKET = {
     showPricing: false,
     primaryCta: { label: 'Book a discovery call', href: SITE.cal, external: true },
     secondaryCta: { label: 'Email the founder', href: `mailto:${SITE.email}`, external: false },
-    closingPrimary: { label: 'Book a call', href: SITE.cal, external: true },
-    closingSecondary: { label: 'WhatsApp', href: SITE.whatsapp, external: true },
     heroNote:
       'Custom AI automation, conversion websites and web applications for businesses that cannot afford downtime.',
+    /* No price wording here — the international site never mentions cost. */
     switchLabel: 'বাংলাদেশে আছেন?',
     switchHref: '/bd',
   },
   bd: {
-    locale: 'en',
+    locale: 'bn',
     path: '/bd',
     /** Transparency wins with Bangladeshi SMBs — every figure is listed. */
     showPricing: true,
-    primaryCta: { label: 'WhatsApp — talk now', href: SITE.whatsapp, external: true },
-    secondaryCta: { label: 'Book a call instead', href: SITE.cal, external: true },
-    closingPrimary: { label: 'WhatsApp — Bangladesh', href: SITE.whatsapp, external: true },
-    closingSecondary: { label: 'Book a call', href: SITE.cal, external: true },
+    primaryCta: { label: 'WhatsApp-এ কথা বলুন', href: SITE.whatsapp, external: true },
+    secondaryCta: { label: 'কল বুক করুন', href: SITE.cal, external: true },
     heroNote:
-      'Websites, WhatsApp automation and custom business tools for Bangladeshi companies — with every price listed up front.',
+      'বাংলাদেশি ব্যবসার জন্য ওয়েবসাইট, WhatsApp অটোমেশন আর কাস্টম বিজনেস টুল — প্রতিটির দাম আগেই বলা আছে।',
+    /* Points back at the English site, so this label stays English on purpose. */
     switchLabel: 'International enquiries',
     switchHref: '/',
   },

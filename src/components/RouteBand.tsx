@@ -1,24 +1,28 @@
 import { CITIES, ROUTE_PATH } from '@/lib/content';
+import { COPY } from '@/lib/copy';
+import type { Market } from '@/lib/site';
 import { PlaneShape } from './Plane';
 
 /**
  * Dual-market positioning stated honestly: this claims reach and working
  * hours, not clients in those cities. The plane follows the curve via CSS
  * Motion Path, driven by a scroll timeline where the browser supports one.
+ *
+ * City names stay in Latin script on both markets — they are the destinations
+ * themselves, and mixing scripts inside the SVG would cost legibility at the
+ * sizes these labels render.
  */
-export default function RouteBand() {
+export default function RouteBand({ market }: { market: Market }) {
+  const t = COPY[market].route;
   return (
     <section className="on-night bg-night py-12 text-slate-300 @[1120px]/page:py-[72px]">
       <div className="mx-auto w-full max-w-[1312px] px-5 @[720px]/page:px-8 @[1120px]/page:px-14">
         <div className="mb-5 max-w-[620px]">
           <p className="mb-4 inline-block rounded-full bg-night-2 px-3.5 py-[7px] text-xs font-bold uppercase tracking-[.08em] text-brand-light">
-            Dual market
+            {t.eyebrow}
           </p>
-          <h2 className="mb-2.5 text-h2 text-slate-50">Built in Dhaka. Shipped to any time zone.</h2>
-          <p className="text-lead text-slate-400">
-            Local rates and a WhatsApp line for Bangladesh. Async delivery and overlapping hours for
-            everyone else.
-          </p>
+          <h2 className="mb-2.5 text-h2 text-slate-50">{t.h2}</h2>
+          <p className="text-lead text-slate-400">{t.lead}</p>
         </div>
 
         <div>

@@ -132,6 +132,23 @@
   .safe-bottom { padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)); }
 }
 
+/* --- Bengali typography ----------------------------------------------
+   Bengali stacks matras above and below the baseline, so the negative
+   tracking and tight leading tuned for Manrope crowd it badly. These rules
+   sit after @tailwind utilities on purpose: they need to win against the
+   letter-spacing and line-height baked into text-h1 / text-h2 and the
+   tracking-[…] utilities, which carry the same specificity. */
+[lang='bn'] h1,
+[lang='bn'] h2 {
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+[lang='bn'] .tracking-\[\.08em\],
+[lang='bn'] .tracking-\[\.1em\],
+[lang='bn'] .tracking-\[\.06em\] {
+  letter-spacing: 0.02em;
+}
+
 /* Motion is opt-out at the platform level. This neutralises duration and
    iteration count while preserving final states, so no layout collapses. */
 @media (prefers-reduced-motion: reduce) {

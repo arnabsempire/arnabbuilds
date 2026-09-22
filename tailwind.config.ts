@@ -26,8 +26,11 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ['var(--font-manrope)', 'Segoe UI', 'system-ui', 'sans-serif'],
-        display: ['Georgia', 'Times New Roman', 'serif'],
+        /* The Bengali face is unicode-range scoped to U+0980-09FE, so it can
+           only ever serve Bengali codepoints — Latin still comes from Manrope
+           (and Georgia in display) no matter where it sits in the stack. */
+        sans: ['var(--font-manrope)', 'var(--font-bengali)', 'Segoe UI', 'system-ui', 'sans-serif'],
+        display: ['Georgia', 'var(--font-bengali)', 'Times New Roman', 'serif'],
       },
       fontSize: {
         h1: ['clamp(2rem, 4.6cqi, 3.5rem)', { lineHeight: '1.08', letterSpacing: '-0.02em' }],

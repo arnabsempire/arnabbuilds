@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { BarChart3, Building2, KanbanSquare, MessageCircle, Package, Target } from 'lucide-react';
-import { CASES, type CaseStudy } from '@/lib/content';
-import { HUE } from '@/lib/site';
+import { casesFor, type CaseStudy } from '@/lib/content';
+import { COPY, type Copy } from '@/lib/copy';
+import { HUE, type Market } from '@/lib/site';
 
 const ICONS = {
   building: Building2, package: Package, target: Target,
@@ -31,8 +32,8 @@ function DemoFrame({ bars, big = false }: { bars: readonly number[]; big?: boole
 }
 
 function CaseCard({
-  study, playing, onPlay, onOpen,
-}: { study: CaseStudy; playing: boolean; onPlay: () => void; onOpen: () => void }) {
+  study, t, playing, onPlay, onOpen,
+}: { study: CaseStudy; t: Copy['work']; playing: boolean; onPlay: () => void; onOpen: () => void }) {
   const hue = HUE[study.hue];
   const Icon = ICONS[study.icon];
 
@@ -50,21 +51,21 @@ function CaseCard({
 
       <div className="flex flex-1 flex-col gap-3 p-[22px]">
         <span className={`inline-block w-fit rounded-full px-[11px] py-[5px] text-[11px] font-bold uppercase tracking-[.06em] ${hue.tint} ${hue.ink}`}>
-          {study.kind}
+          {t.kinds[study.kind]}
         </span>
         <h3 className="text-h3">{study.title}</h3>
         <p className="text-[15px] leading-[1.65] text-ink-muted">{study.challenge}</p>
         <p className="mt-auto border-t border-line pt-3.5 text-[13px] text-ink-muted">
-          <strong className="text-ink">{study.outcomeLabel}:</strong> {study.outcome}
+          <strong className="text-ink">{t.outcomeLabels[study.outcomeLabel]}:</strong> {study.outcome}
         </p>
         <div className="mt-3 flex gap-2.5">
           <button type="button" onClick={onPlay}
-            className={`min-h-11 flex-1 rounded-lg border border-line bg-white text-[13px] font-bold transition-colors duration-200 ease-fade hover:${hue.tint.replace('bg-', 'bg-')} ${hue.ink}`}>
-            {playing ? 'Stop' : 'Play in card'}
+            className={`min-h-11 flex-1 rounded-lg border border-line bg-white text-[13px] font-bold transition-colors duration-200 ease-fade ${hue.ink}`}>
+            {playing ? t.stop : t.play}
           </button>
           <button type="button" onClick={onOpen}
             className={`min-h-11 flex-1 rounded-lg border border-line bg-white text-[13px] font-bold transition-colors duration-200 ease-fade ${hue.ink}`}>
-            Full demo
+            {t.full}
           </button>
         </div>
       </div>
@@ -72,7 +73,7 @@ function CaseCard({
   );
 }
 
-function DemoModal({ study, onClose }: { study: CaseStudy; onClose: () => void }) {
+function DemoModal({ study, t, onClose }: { study: CaseStudy; t: Copy['work']; onClose: () => void }) {
   const closeRef = useRef<HTMLButtonElement>(null);
   const hue = HUE[study.hue];
 
@@ -106,7 +107,7 @@ function DemoModal({ study, onClose }: { study: CaseStudy; onClose: () => void }
         </div>
         <div className="p-[26px]">
           <span className={`inline-block rounded-full px-[11px] py-[5px] text-[11px] font-bold uppercase tracking-[.06em] ${hue.tint} ${hue.ink}`}>
-            {study.kind}
+            {t.kinds[study.kind]}
           </span>
           <h3 id="demo-title" className="mb-2 mt-3 text-h3">{study.title}</h3>
           <p className="text-[15px] leading-[1.65] text-ink-muted">{study.challenge}</p>
@@ -123,11 +124,11 @@ function DemoModal({ study, onClose }: { study: CaseStudy; onClose: () => void }
           </ul>
 
           <p className="mt-4 border-t border-line pt-3.5 text-[13px] text-ink-muted">
-            <strong className="text-ink">Stack:</strong> {study.stack}
+            <strong className="text-ink">{t.stackLabel}:</strong> {study.stack}
           </p>
           <button ref={closeRef} type="button" onClick={onClose}
             className="mt-5 min-h-12 w-full rounded-lg bg-ink font-bold text-white transition-colors duration-200 ease-fade hover:bg-ink-soft">
-            Close demo
+            {t.close}
           </button>
         </div>
       </div>
@@ -135,27 +136,27 @@ function DemoModal({ study, onClose }: { study: CaseStudy; onClose: () => void }
   );
 }
 
-export default function Portfolio() {
+export default function Portfolio({ market }: { market: Market }) {
   const [playing, setPlaying] = useState(-1);
   const [modal, setModal] = useState(-1);
   const close = useCallback(() => setModal(-1), []);
+  const t = COPY[market].work;
+  const cases = casesFor(market);
 
   return (
     <section id="work" className="border-b border-line py-14 @[720px]/page:py-[76px] @[1120px]/page:py-[104px]">
       <div className="mx-auto w-full max-w-[1312px] px-5 @[720px]/page:px-8 @[1120px]/page:px-14">
         <div className="mb-8 max-w-[640px] @[720px]/page:mb-11 @[1120px]/page:mb-[60px]">
-          <h2 className="mb-3 text-h2">Portfolio &amp; proof</h2>
-          <p className="text-lead text-ink-soft">
-            Recent work across tourism, retail, e-commerce and automation. Demonstration builds are
-            labelled as such — no borrowed credit.
-          </p>
+          <h2 className="mb-3 text-h2">{t.h2}</h2>
+          <p className="text-lead text-ink-soft">{t.lead}</p>
         </div>
 
         <div className="grid grid-cols-1 gap-[18px] @[720px]/page:grid-cols-2 @[720px]/page:gap-[22px] @[1120px]/page:grid-cols-3 @[1120px]/page:gap-[26px]">
-          {CASES.map((study, i) => (
+          {cases.map((study, i) => (
             <CaseCard
               key={study.slug}
               study={study}
+              t={t}
               playing={playing === i}
               onPlay={() => setPlaying((p) => (p === i ? -1 : i))}
               onOpen={() => setModal(i)}
@@ -164,7 +165,7 @@ export default function Portfolio() {
         </div>
       </div>
 
-      {modal >= 0 && <DemoModal study={CASES[modal]} onClose={close} />}
+      {modal >= 0 && <DemoModal study={cases[modal]} t={t} onClose={close} />}
     </section>
   );
 }
