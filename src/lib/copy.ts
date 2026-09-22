@@ -52,7 +52,7 @@ export type Copy = {
     h2: string;
     lead: string;
     kinds: Record<'Paid client work' | 'Demonstration build', string>;
-    outcomeLabels: Record<'Outcome' | 'Stack' | 'Feature' | 'Scale', string>;
+    outcomeLabels: Record<'Capability' | 'Stack' | 'Feature', string>;
     stackLabel: string;
     play: string;
     stop: string;
@@ -154,7 +154,7 @@ const intl: Copy = {
       'Paid client work': 'Paid client work',
       'Demonstration build': 'Demonstration build',
     },
-    outcomeLabels: { Outcome: 'Outcome', Stack: 'Stack', Feature: 'Feature', Scale: 'Scale' },
+    outcomeLabels: { Capability: 'What it does', Stack: 'Stack', Feature: 'Feature' },
     stackLabel: 'Stack',
     play: 'Play in card',
     stop: 'Stop',
@@ -259,7 +259,7 @@ const bd: Copy = {
       'Paid client work': 'পেইড ক্লায়েন্ট ওয়ার্ক',
       'Demonstration build': 'ডেমনস্ট্রেশন বিল্ড',
     },
-    outcomeLabels: { Outcome: 'ফলাফল', Stack: 'স্ট্যাক', Feature: 'ফিচার', Scale: 'স্কেল' },
+    outcomeLabels: { Capability: 'যা করে', Stack: 'স্ট্যাক', Feature: 'ফিচার' },
     stackLabel: 'স্ট্যাক',
     play: 'কার্ডে চালান',
     stop: 'থামান',

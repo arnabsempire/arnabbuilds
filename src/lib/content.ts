@@ -103,9 +103,13 @@ export type CaseStudy = {
   title: string;
   challenge: string;
   stack: string;
-  outcomeLabel: 'Outcome' | 'Stack' | 'Feature' | 'Scale';
+  outcomeLabel: 'Capability' | 'Stack' | 'Feature';
   outcome: string;
-  /** TODO(arnab): confirm against real client data before launch. */
+  /**
+   * Every line in `outcome` must be a statement Arnab can defend without
+   * producing a client's private data. Performance figures were removed in
+   * September 2026 because none of them were measured.
+   */
   outcomeVerified: boolean;
   bars: [number, number, number, number];
   steps: [string, string, string];
@@ -118,7 +122,7 @@ export const CASES: CaseStudy[] = [
     title: 'Boutique Resort Booking System',
     challenge: 'Rooms were sold over the phone into a paper ledger, so double bookings were routine and nobody could see real availability.',
     stack: 'Next.js, Supabase, transactional email',
-    outcomeLabel: 'Outcome', outcome: '40% more direct bookings within 3 months.', outcomeVerified: false,
+    outcomeLabel: 'Capability', outcome: 'Live availability, deposit capture and automatic confirmation.', outcomeVerified: true,
     bars: [86, 64, 92, 48],
     steps: [
       'Guest picks dates — availability checks against the live calendar',
@@ -127,7 +131,7 @@ export const CASES: CaseStudy[] = [
     ],
     bn: {
       challenge: 'রুম বিক্রি হতো ফোনে, লেখা হতো কাগজের খাতায় — ফলে ডাবল বুকিং ছিল নিয়মিত ঘটনা, আর আসল অ্যাভেইলেবিলিটি কেউ দেখতে পেত না।',
-      outcome: '3 মাসে ডাইরেক্ট বুকিং 40% বেড়েছে।',
+      outcome: 'লাইভ অ্যাভেইলেবিলিটি, ডিপোজিট নেওয়া আর স্বয়ংক্রিয় কনফার্মেশন।',
       steps: [
         'গেস্ট তারিখ বাছেন — লাইভ ক্যালেন্ডারে অ্যাভেইলেবিলিটি মিলিয়ে দেখা হয়',
         'রুম হোল্ড হয়, ডিপোজিট নেওয়া হয়, কনফার্মেশন ইমেইল নিজে থেকেই চলে যায়',
@@ -162,7 +166,7 @@ export const CASES: CaseStudy[] = [
     title: 'Lead Scoring Agent',
     challenge: 'Enquiries arrived across three channels and were triaged by hand, so the best leads were answered last.',
     stack: 'n8n, OpenAI, CRM webhook',
-    outcomeLabel: 'Outcome', outcome: 'About 60% of manual triage time removed.', outcomeVerified: false,
+    outcomeLabel: 'Capability', outcome: 'Scores and routes every enquiry the moment it arrives.', outcomeVerified: true,
     bars: [94, 58, 76, 40],
     steps: [
       'Enquiry arrives from form, WhatsApp or email',
@@ -171,7 +175,7 @@ export const CASES: CaseStudy[] = [
     ],
     bn: {
       challenge: 'তিনটি আলাদা চ্যানেলে আসা এনকোয়ারি হাতে বাছাই হতো, ফলে সবচেয়ে ভালো লিডের উত্তর যেত সবার শেষে।',
-      outcome: 'হাতে বাছাইয়ের প্রায় 60% সময় বেঁচেছে।',
+      outcome: 'প্রতিটি এনকোয়ারি আসামাত্রই স্কোর করে সঠিক জায়গায় পাঠায়।',
       steps: [
         'ফর্ম, WhatsApp বা ইমেইল — যেকোনো জায়গা থেকে এনকোয়ারি আসে',
         'এজেন্ট ফিট আর ইনটেন্ট দেখে স্কোর দেয়, ট্যাগ করে সঠিক জায়গায় পাঠায়',
@@ -206,7 +210,7 @@ export const CASES: CaseStudy[] = [
     title: 'WhatsApp Booking Bot',
     challenge: 'Customers wanted to book on WhatsApp, but every message needed a human to read it and check the diary.',
     stack: 'WhatsApp Business API, n8n, Supabase',
-    outcomeLabel: 'Scale', outcome: '2,400+ bookings handled per month.', outcomeVerified: false,
+    outcomeLabel: 'Capability', outcome: 'Books, confirms and reminds entirely inside WhatsApp.', outcomeVerified: true,
     bars: [50, 88, 66, 94],
     steps: [
       'Customer messages the business number in their own language',
@@ -215,7 +219,7 @@ export const CASES: CaseStudy[] = [
     ],
     bn: {
       challenge: 'কাস্টমাররা WhatsApp-এই বুক করতে চাইতেন, কিন্তু প্রতিটি মেসেজ পড়ে ডায়েরি মেলানোর জন্য একজন মানুষ লাগত।',
-      outcome: 'মাসে 2,400+ বুকিং সামলানো হয়।',
+      outcome: 'বুকিং, কনফার্মেশন আর রিমাইন্ডার — পুরোটাই WhatsApp-এর ভেতরে।',
       steps: [
         'কাস্টমার নিজের ভাষায় বিজনেস নম্বরে মেসেজ করেন',
         'বট স্লট দেখায়, কনফার্ম করে, সরাসরি ক্যালেন্ডারে বুক করে',
