@@ -1,10 +1,10 @@
 import Image from 'next/image';
-import { Globe, Layers, Linkedin, Mail, MapPin, MessageCircle, Phone, Zap } from 'lucide-react';
+import { Globe, Layers, Linkedin, Mail, MapPin, MessageCircle, Phone, Share2, Zap } from 'lucide-react';
 import { MARKET, SITE, HUE, type Market } from '@/lib/site';
 import { COPY } from '@/lib/copy';
 import { pillarsFor, stepsFor } from '@/lib/content';
 
-const PILLAR_ICONS = { zap: Zap, globe: Globe, layers: Layers } as const;
+const PILLAR_ICONS = { zap: Zap, globe: Globe, layers: Layers, share: Share2 } as const;
 const shell = 'mx-auto w-full max-w-[1312px] px-5 @[720px]/page:px-8 @[1120px]/page:px-14';
 const section = 'border-b border-line py-14 @[720px]/page:py-[76px] @[1120px]/page:py-[104px]';
 
@@ -76,14 +76,17 @@ export function About({ market }: { market: Market }) {
       <div className={shell}>
         <div className="grid grid-cols-1 items-center gap-8 @[1120px]/page:grid-cols-[0.95fr_1.05fr] @[1120px]/page:gap-16">
           <div className="@[1120px]/page:order-2 @[1120px]/page:justify-self-end">
-            {/* TODO(arnab): replace with a 800px+ original — the current file is 80x80. */}
-            <div className="w-full max-w-[380px] overflow-hidden rounded-2xl border border-line shadow-[0_18px_40px_rgba(15,23,42,.1)] @[1120px]/page:max-w-[420px]">
+            {/* An environmental portrait, not a headshot: the cabin behind him is
+                the evidence for the aviation claim the copy makes. Sized to the
+                column so the 3:2 frame sits level with the text beside it. */}
+            <div className="w-full max-w-[520px] overflow-hidden rounded-2xl border border-line shadow-[0_18px_40px_rgba(15,23,42,.1)] @[1120px]/page:max-w-none">
               <Image
-                src="/arnab-aditya-das.png"
-                alt={`${SITE.founder}, founder of Arnab Builds`}
-                width={420}
-                height={420}
+                src="/arnab-aditya-das.jpg"
+                alt={`${SITE.founder} in cabin crew uniform aboard an aircraft`}
+                width={1264}
+                height={843}
                 priority
+                sizes="(min-width: 1120px) 48vw, (min-width: 720px) 60vw, 90vw"
                 className="block h-auto w-full"
               />
             </div>

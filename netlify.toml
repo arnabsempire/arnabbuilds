@@ -33,6 +33,6 @@
     Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
-  for = "/arnab-aditya-das.png"
+  for = "/arnab-aditya-das.jpg"
   [headers.values]
     Cache-Control = "public, max-age=604800, must-revalidate"

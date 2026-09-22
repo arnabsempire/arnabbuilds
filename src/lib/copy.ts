@@ -59,6 +59,28 @@ export type Copy = {
     full: string;
     close: string;
   };
+  walkthroughs: { h2: string; lead: string; open: string; note: string };
+  contact: {
+    h2: string;
+    lead: string;
+    alt: string;
+    or: string;
+    nameLabel: string;
+    namePlaceholder: string;
+    emailLabel: string;
+    emailPlaceholder: string;
+    whatsappLabel: string;
+    whatsappPlaceholder: string;
+    messageLabel: string;
+    messagePlaceholder: string;
+    submit: string;
+    sending: string;
+    sentTitle: string;
+    sentBody: string;
+    error: string;
+    privacy: string;
+    honeypot: string;
+  };
   closing: {
     /** Words the plane flies over, in order, with the text around them. */
     lead: string;
@@ -98,6 +120,7 @@ const intl: Copy = {
       { href: '#services', label: 'Services' },
       { href: '#process', label: 'Process' },
       { href: '#work', label: 'Portfolio' },
+      { href: '#contact', label: 'Contact' },
     ],
     status: SITE.status,
   },
@@ -138,7 +161,7 @@ const intl: Copy = {
     lead: 'Local rates and a WhatsApp line for Bangladesh. Async delivery and overlapping hours for everyone else.',
   },
   services: {
-    h2: 'Three pillars of service',
+    h2: 'Four pillars of service',
     lead: 'Custom solutions built around reliability, precision and the outcome you are actually paying for.',
     noPrice: 'Scoped and quoted on the discovery call.',
     cta: 'See the work →',
@@ -160,6 +183,33 @@ const intl: Copy = {
     stop: 'Stop',
     full: 'Full demo',
     close: 'Close demo',
+  },
+  walkthroughs: {
+    h2: 'Builds you can walk through',
+    lead: 'Concept products, built end to end. Open any of them and use it — these are whole pages, not screenshots.',
+    open: 'Open the demo →',
+    note: 'Each of these is a concept build made to demonstrate an approach. None is a live commercial product.',
+  },
+  contact: {
+    h2: "Tell me what's eating your week",
+    lead: 'Describe the task you keep repeating. I will tell you whether it is worth automating, and roughly what it would take.',
+    alt: 'Prefer something faster? Message me on',
+    or: 'or email',
+    nameLabel: 'Your name',
+    namePlaceholder: 'How should I address you?',
+    emailLabel: 'Email',
+    emailPlaceholder: 'you@company.com',
+    whatsappLabel: 'WhatsApp number (optional)',
+    whatsappPlaceholder: '+880 1XXX XXXXXX',
+    messageLabel: "What's eating your week?",
+    messagePlaceholder: 'Every booking comes in by phone and someone has to write it into a diary...',
+    submit: 'Send it over',
+    sending: 'Sending',
+    sentTitle: 'Got it.',
+    sentBody: 'I read every one of these myself. Expect a reply within one working day — sooner if you left a WhatsApp number.',
+    error: 'That did not send. Try again, or message me on',
+    privacy: 'Your details go to me and nowhere else. No list, no newsletter.',
+    honeypot: 'Leave this field empty',
   },
   closing: {
     lead: 'Ready to',
@@ -183,7 +233,7 @@ const intl: Copy = {
       { href: '#about', label: 'About' },
       { href: '#work', label: 'Portfolio' },
       { href: '#process', label: 'Process' },
-      { href: `mailto:${SITE.email}`, label: 'Contact' },
+      { href: '#contact', label: 'Contact' },
     ],
     coverageHeading: 'Local coverage',
     hubs: [...SITE.hubs],
@@ -203,6 +253,7 @@ const bd: Copy = {
       { href: '#services', label: 'সার্ভিস' },
       { href: '#process', label: 'প্রসেস' },
       { href: '#work', label: 'পোর্টফোলিও' },
+      { href: '#contact', label: 'যোগাযোগ' },
     ],
     status: 'Q4-এর প্রজেক্ট নিচ্ছি',
   },
@@ -243,7 +294,7 @@ const bd: Copy = {
     lead: 'বাংলাদেশের জন্য লোকাল রেট আর সরাসরি WhatsApp লাইন। বাকি সবার জন্য অ্যাসিঙ্ক ডেলিভারি আর ওভারল্যাপিং আওয়ার।',
   },
   services: {
-    h2: 'সার্ভিসের তিনটি স্তম্ভ',
+    h2: 'সার্ভিসের চারটি স্তম্ভ',
     lead: 'নির্ভরযোগ্যতা, নিখুঁততা আর আপনি আসলে যে ফলাফলের জন্য টাকা দিচ্ছেন — সব ঘিরে তৈরি কাস্টম সলিউশন।',
     noPrice: 'ডিসকভারি কলে স্কোপ আর কোট ঠিক হয়।',
     cta: 'কাজ দেখুন →',
@@ -265,6 +316,33 @@ const bd: Copy = {
     stop: 'থামান',
     full: 'ফুল ডেমো',
     close: 'ডেমো বন্ধ করুন',
+  },
+  walkthroughs: {
+    h2: 'ঘুরে দেখার মতো বিল্ড',
+    lead: 'কনসেপ্ট প্রোডাক্ট, শুরু থেকে শেষ পর্যন্ত বানানো। যেকোনোটা খুলে ব্যবহার করে দেখুন — এগুলো স্ক্রিনশট নয়, পুরো পেজ।',
+    open: 'ডেমো খুলুন →',
+    note: 'এগুলোর প্রতিটি একটি পদ্ধতি দেখানোর জন্য বানানো কনসেপ্ট বিল্ড। কোনোটিই চালু বাণিজ্যিক প্রোডাক্ট নয়।',
+  },
+  contact: {
+    h2: 'আপনার সপ্তাহটা কোথায় চলে যাচ্ছে?',
+    lead: 'যে কাজটা বারবার করতে হয়, সেটা লিখুন। অটোমেট করা যায় কি না, আর করলে মোটামুটি কী লাগবে — জানিয়ে দেব।',
+    alt: 'আরও দ্রুত চাইলে মেসেজ করুন',
+    or: 'অথবা ইমেইল',
+    nameLabel: 'আপনার নাম',
+    namePlaceholder: 'নাম লিখুন',
+    emailLabel: 'ইমেইল',
+    emailPlaceholder: 'you@company.com',
+    whatsappLabel: 'WhatsApp নম্বর (ঐচ্ছিক)',
+    whatsappPlaceholder: '+880 1XXX XXXXXX',
+    messageLabel: 'কোন কাজটা সময় খেয়ে ফেলছে?',
+    messagePlaceholder: 'প্রতিটা বুকিং ফোনে আসে, আর কাউকে সেটা খাতায় লিখে রাখতে হয়...',
+    submit: 'পাঠিয়ে দিন',
+    sending: 'পাঠানো হচ্ছে',
+    sentTitle: 'পেয়েছি।',
+    sentBody: 'প্রতিটি মেসেজ আমি নিজে পড়ি। এক কর্মদিবসের মধ্যেই উত্তর পাবেন — WhatsApp নম্বর দিলে আরও আগে।',
+    error: 'পাঠানো যায়নি। আবার চেষ্টা করুন, অথবা মেসেজ করুন',
+    privacy: 'আপনার তথ্য শুধু আমার কাছেই আসে, আর কোথাও নয়। কোনো লিস্ট নেই, নিউজলেটার নেই।',
+    honeypot: 'এই ঘরটি খালি রাখুন',
   },
   closing: {
     /* Bengali puts the verb last, so the three words come first and the
@@ -290,7 +368,7 @@ const bd: Copy = {
       { href: '#about', label: 'আমার সম্পর্কে' },
       { href: '#work', label: 'পোর্টফোলিও' },
       { href: '#process', label: 'প্রসেস' },
-      { href: `mailto:${SITE.email}`, label: 'যোগাযোগ' },
+      { href: '#contact', label: 'যোগাযোগ' },
     ],
     coverageHeading: 'লোকাল কভারেজ',
     hubs: ['ঢাকা', 'চট্টগ্রাম', 'সিলেট', 'কক্সবাজার', 'বান্দরবান'],

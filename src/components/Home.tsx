@@ -3,6 +3,8 @@ import { COPY } from '@/lib/copy';
 import Navbar from './Navbar';
 import RouteBand from './RouteBand';
 import Portfolio from './Portfolio';
+import Walkthroughs from './Walkthroughs';
+import ContactForm from './ContactForm';
 import ClosingFlight from './ClosingFlight';
 import { About, ActionBar, Footer, Hero, Process, Services } from './Sections';
 
@@ -33,6 +35,8 @@ export default function Home({ market }: { market: Market }) {
         <Services market={market} />
         <Process market={market} />
         <Portfolio market={market} />
+        <Walkthroughs market={market} />
+        <ContactForm market={market} />
         <ClosingFlight market={market} />
       </main>
       <Footer market={market} />

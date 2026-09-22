@@ -8,7 +8,7 @@ import type { HueName, Market } from './site';
 
 export type Pillar = {
   hue: HueName;
-  icon: 'zap' | 'globe' | 'layers';
+  icon: 'zap' | 'globe' | 'layers' | 'share';
   title: string;
   copy: string;
   /** Shown only where the market lists pricing. */
@@ -37,7 +37,16 @@ export const PILLARS: Pillar[] = [
     },
   },
   {
-    hue: 'violet', icon: 'layers', span: 'full',
+    hue: 'rose', icon: 'share', span: 'wide',
+    title: 'Social Media Automation',
+    copy: 'Captions written in your brand voice, graphics generated on brand, and a full month of posts scheduled across Facebook, Instagram and LinkedIn — so the feed never goes quiet.',
+    price: 'From ৳25,000 build + ৳8,000/month',
+    bn: {
+      copy: 'আপনার ব্র্যান্ডের ভয়েসে ক্যাপশন, ব্র্যান্ড মেনে গ্রাফিক, আর Facebook, Instagram ও LinkedIn-এ পুরো এক মাসের পোস্ট শিডিউল করা — ফিড কখনও চুপ থাকে না।',
+    },
+  },
+  {
+    hue: 'violet', icon: 'layers', span: 'single',
     title: 'Custom Web Apps & Internal Tools',
     copy: 'CRMs, inventory managers, project trackers and client portals on Supabase and PostgreSQL — built to survive real operational load.',
     price: 'From ৳90,000',
@@ -118,7 +127,7 @@ export type CaseStudy = {
 
 export const CASES: CaseStudy[] = [
   {
-    slug: 'resort-booking', hue: 'emerald', kind: 'Paid client work', icon: 'building',
+    slug: 'resort-booking', hue: 'emerald', kind: 'Demonstration build', icon: 'building',
     title: 'Boutique Resort Booking System',
     challenge: 'Rooms were sold over the phone into a paper ledger, so double bookings were routine and nobody could see real availability.',
     stack: 'Next.js, Supabase, transactional email',
@@ -162,7 +171,7 @@ export const CASES: CaseStudy[] = [
     },
   },
   {
-    slug: 'lead-scoring', hue: 'amber', kind: 'Paid client work', icon: 'target',
+    slug: 'lead-scoring', hue: 'amber', kind: 'Demonstration build', icon: 'target',
     title: 'Lead Scoring Agent',
     challenge: 'Enquiries arrived across three channels and were triaged by hand, so the best leads were answered last.',
     stack: 'n8n, OpenAI, CRM webhook',
@@ -206,7 +215,7 @@ export const CASES: CaseStudy[] = [
     },
   },
   {
-    slug: 'whatsapp-bot', hue: 'rose', kind: 'Paid client work', icon: 'chat',
+    slug: 'whatsapp-bot', hue: 'rose', kind: 'Demonstration build', icon: 'chat',
     title: 'WhatsApp Booking Bot',
     challenge: 'Customers wanted to book on WhatsApp, but every message needed a human to read it and check the diary.',
     stack: 'WhatsApp Business API, n8n, Supabase',
@@ -276,4 +285,63 @@ export function casesFor(market: Market): CaseStudy[] {
   return market === 'bd'
     ? CASES.map((c) => ({ ...c, challenge: c.bn.challenge, outcome: c.bn.outcome, steps: c.bn.steps }))
     : CASES;
+}
+
+/**
+ * Concept products carried over from the previous site, where they lived under
+ * "Builds you can walk through". Each is a complete page served from /public,
+ * so a visitor clicks into the real thing rather than a screenshot. Every one
+ * of them states on its own footer that it is a concept demo, not a live
+ * product — that disclosure is the reason these can sit next to real work.
+ */
+export type Walkthrough = {
+  slug: string;
+  hue: HueName;
+  href: string;
+  title: string;
+  tagline: string;
+  tags: string[];
+  bn: { tagline: string };
+};
+
+export const WALKTHROUGHS: Walkthrough[] = [
+  {
+    slug: 'postpilot',
+    hue: 'rose',
+    href: '/demos/postpilot.html',
+    title: 'PostPilot',
+    tagline: 'Writes captions in your brand voice, designs the graphic and publishes on schedule.',
+    tags: ['Social automation', 'AI copy', 'Scheduling'],
+    bn: {
+      tagline: 'আপনার ব্র্যান্ডের ভয়েসে ক্যাপশন লেখে, গ্রাফিক বানায়, আর সময়মতো পোস্ট করে।',
+    },
+  },
+  {
+    slug: 'postpilot-genz',
+    hue: 'violet',
+    href: '/demos/postpilot-genz.html',
+    title: 'PostPilot — Gen-Z cut',
+    tagline: 'The same product, pitched to a younger audience. Same engine, different voice.',
+    tags: ['Brand voice', 'Art direction', 'Positioning'],
+    bn: {
+      tagline: 'একই প্রোডাক্ট, তরুণ অডিয়েন্সের জন্য। ইঞ্জিন এক, ভয়েস আলাদা।',
+    },
+  },
+  {
+    slug: 'launchdesk',
+    hue: 'cyan',
+    href: '/demos/launchdesk.html',
+    title: 'LaunchDesk',
+    tagline: 'Business setup and automation packaged as a done-for-you service.',
+    tags: ['Productised service', 'Onboarding', 'Ops'],
+    bn: {
+      tagline: 'বিজনেস সেটআপ আর অটোমেশন — ডান-ফর-ইউ সার্ভিস হিসেবে সাজানো।',
+    },
+  },
+];
+
+export function walkthroughsFor(market: Market): Walkthrough[] {
+  return market === 'bd'
+    ? WALKTHROUGHS.map((w) => ({ ...w, tagline: w.bn.tagline }))
+    : WALKTHROUGHS;
 }

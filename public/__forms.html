@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Form definitions</title>
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <!--
+      Netlify detects forms by parsing static HTML at deploy time. A form that
+      only exists inside a React component is never seen, so the canonical
+      pattern for Next.js on Netlify is to declare it once here and have the
+      real component POST to this path. This file is never linked or indexed.
+    -->
+    <form name="enquiry" data-netlify="true" netlify-honeypot="company-website" hidden>
+      <input type="hidden" name="form-name" value="enquiry" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="whatsapp" />
+      <input type="text" name="market" />
+      <textarea name="message"></textarea>
+      <input type="text" name="company-website" />
+    </form>
+  </body>
+</html>

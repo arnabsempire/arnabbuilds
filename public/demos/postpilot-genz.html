@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PostPilot — social media on autopilot fr fr</title>
+<meta name="description" content="PostPilot writes, designs, and posts your content automatically. Your feed stays active. You don't lift a finger.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.454.0"></script>
+<style>
+  :root{
+    --lime:#C6FF3D; --pink:#FF3DAE; --purple:#7C4DFF; --blue:#3DD6FF;
+    --cream:#FFF9EC; --ink:#0D0D0D;
+    --shadow: 6px 6px 0 var(--ink);
+    --shadow-sm: 4px 4px 0 var(--ink);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--cream);color:var(--ink);font-family:'Space Grotesk',sans-serif;overflow-x:hidden}
+  .display{font-family:'Archivo Black',sans-serif}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 6%}
+  @media(prefers-reduced-motion: reduce){ *{animation:none!important;transition:none!important} }
+
+  /* dotted texture */
+  body{background-image:radial-gradient(var(--ink) 1px, transparent 1px);background-size:26px 26px;background-attachment:fixed;background-color:var(--cream);background-position:-13px -13px}
+
+  nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 6%;background:var(--cream);border-bottom:3px solid var(--ink)}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Archivo Black',sans-serif;font-size:1.2rem}
+  .logo-mark{width:38px;height:38px;background:var(--lime);border:3px solid var(--ink);border-radius:9px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);transform:rotate(-6deg)}
+  .nav-links{display:flex;gap:28px;font-weight:600;font-size:.92rem}
+  .nav-links a:hover{color:var(--pink)}
+  .nav-cta{background:var(--ink);color:var(--cream);padding:11px 20px;border-radius:100px;font-weight:700;font-size:.85rem;border:3px solid var(--ink)}
+  @media(max-width:820px){.nav-links{display:none}}
+
+  .hero{padding:80px 0 60px;position:relative}
+  .sticker{display:inline-flex;align-items:center;gap:8px;background:var(--pink);color:var(--cream);padding:8px 16px;border-radius:100px;border:3px solid var(--ink);font-weight:700;font-size:.82rem;box-shadow:var(--shadow-sm);transform:rotate(-2deg);margin-bottom:26px}
+
+  h1{font-family:'Archivo Black',sans-serif;font-size:clamp(2.4rem,7vw,5rem);line-height:.98;letter-spacing:-.01em;max-width:900px}
+  .hero-mark{background:var(--lime);padding:0 10px;box-shadow:var(--shadow-sm);display:inline-block;border:3px solid var(--ink);transform:rotate(-1deg)}
+
+  .hero-sub{margin-top:26px;font-size:1.15rem;max-width:520px;line-height:1.55;font-weight:500}
+  .hero-ctas{display:flex;gap:16px;margin-top:34px;flex-wrap:wrap}
+  .btn-primary{background:var(--purple);color:var(--cream);padding:16px 30px;border-radius:100px;font-weight:700;font-size:1rem;border:3px solid var(--ink);box-shadow:var(--shadow);display:inline-flex;align-items:center;gap:8px;transition:transform .15s,box-shadow .15s}
+  .btn-primary:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink)}
+  .btn-ghost{background:var(--cream);color:var(--ink);padding:15px 30px;border-radius:100px;font-weight:700;font-size:1rem;border:3px solid var(--ink);box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s}
+  .btn-ghost:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink)}
+
+  /* SWIPE CARD STACK - signature element */
+  .stack-zone{margin-top:70px;display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+  @media(max-width:900px){.stack-zone{grid-template-columns:1fr}}
+  .stack{position:relative;height:400px}
+  .swipe-card{position:absolute;top:0;left:0;width:100%;max-width:320px;background:var(--cream);border:3px solid var(--ink);border-radius:18px;padding:20px;box-shadow:var(--shadow)}
+  .swipe-card.c1{transform:rotate(-7deg) translate(0,10px);z-index:1;background:var(--blue)}
+  .swipe-card.c2{transform:rotate(4deg) translate(30px,40px);z-index:2;background:var(--lime)}
+  .swipe-card.c3{transform:rotate(-2deg) translate(55px,80px);z-index:3;background:var(--cream)}
+  .sc-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-weight:700;font-size:.85rem}
+  .sc-dot{width:24px;height:24px;border-radius:50%;background:var(--ink)}
+  .sc-body{font-size:.9rem;font-weight:500;line-height:1.5;min-height:60px}
+  .sc-tag{margin-top:12px;display:inline-block;background:var(--ink);color:var(--cream);font-size:.68rem;font-weight:700;padding:4px 10px;border-radius:100px}
+
+  .stat-list{display:flex;flex-direction:column;gap:18px}
+  .stat-card{background:var(--cream);border:3px solid var(--ink);border-radius:14px;padding:20px 24px;display:flex;align-items:center;gap:16px;box-shadow:var(--shadow-sm)}
+  .stat-card .num{font-family:'Archivo Black',sans-serif;font-size:1.8rem}
+  .stat-card .lbl{font-size:.85rem;font-weight:600;color:#333}
+  .stat-card.pink{background:var(--pink);color:var(--cream)}
+  .stat-card.purple{background:var(--purple);color:var(--cream)}
+
+  section{padding:90px 0}
+  .section-head{max-width:600px;margin-bottom:50px}
+  .kicker{display:inline-block;background:var(--ink);color:var(--cream);font-size:.75rem;font-weight:700;padding:5px 12px;border-radius:100px;margin-bottom:16px;text-transform:uppercase;letter-spacing:.04em}
+  h2{font-family:'Archivo Black',sans-serif;font-size:clamp(2rem,4.5vw,3.2rem);line-height:1.05}
+  .section-head p{margin-top:16px;font-size:1.05rem;font-weight:500;line-height:1.55}
+
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  @media(max-width:900px){.features{grid-template-columns:1fr}}
+  .feature{background:var(--cream);border:3px solid var(--ink);border-radius:18px;padding:30px;box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s}
+  .feature:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--ink)}
+  .feature:nth-child(1){background:var(--lime)}
+  .feature:nth-child(2){background:var(--blue)}
+  .feature:nth-child(3){background:var(--pink);color:var(--cream)}
+  .feature-icon{width:52px;height:52px;border:3px solid var(--ink);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;background:var(--cream);color:var(--ink)}
+  .feature h3{font-family:'Archivo Black',sans-serif;font-size:1.3rem;margin-bottom:10px}
+  .feature p{font-size:.92rem;font-weight:500;line-height:1.6}
+
+  .platform-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+  .platform-chip{display:flex;align-items:center;gap:8px;background:var(--cream);border:3px solid var(--ink);border-radius:100px;padding:10px 20px;font-weight:700;font-size:.9rem;box-shadow:var(--shadow-sm)}
+
+  .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  @media(max-width:900px){.pricing{grid-template-columns:1fr}}
+  .price-card{background:var(--cream);border:3px solid var(--ink);border-radius:20px;padding:32px;box-shadow:var(--shadow)}
+  .price-card.popular{background:var(--lime);position:relative;transform:rotate(-1deg)}
+  .popular-tag{position:absolute;top:-16px;right:20px;background:var(--pink);color:var(--cream);font-weight:700;font-size:.72rem;padding:6px 14px;border-radius:100px;border:3px solid var(--ink);transform:rotate(4deg)}
+  .price-name{font-family:'Archivo Black',sans-serif;font-size:1.1rem;margin-bottom:10px}
+  .price-amt{font-family:'Archivo Black',sans-serif;font-size:2.6rem}
+  .price-amt span{font-size:.85rem;font-weight:600;font-family:'Space Grotesk',sans-serif}
+  .price-desc{font-size:.85rem;font-weight:600;margin:8px 0 22px;opacity:.75}
+  .price-list{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:26px}
+  .price-list li{display:flex;gap:9px;font-size:.88rem;font-weight:500}
+  .price-btn{display:block;text-align:center;padding:13px;border-radius:100px;font-weight:700;font-size:.9rem;border:3px solid var(--ink);background:var(--cream)}
+  .price-btn.filled{background:var(--ink);color:var(--cream)}
+
+  footer{padding:56px 0 40px;border-top:3px solid var(--ink);text-align:center;font-size:.85rem;font-weight:600}
+  .foot-logo{font-family:'Archivo Black',sans-serif;margin-bottom:10px;font-size:1.1rem}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><div class="logo-mark">🚀</div>PostPilot</div>
+  <div class="nav-links">
+    <a href="#features">features</a>
+    <a href="#platforms">platforms</a>
+    <a href="#pricing">pricing</a>
+  </div>
+  <a href="#pricing" class="nav-cta">try it free</a>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="sticker">✨ posting while you sleep, literally</div>
+    <h1>your feed goes <span class="hero-mark">crazy viral</span> without you touching your phone</h1>
+    <p class="hero-sub">PostPilot writes the caption, makes the graphic, and posts it — on every platform, every single day. you just... exist.</p>
+    <div class="hero-ctas">
+      <a href="#pricing" class="btn-primary">let's go <i data-lucide="arrow-right" style="width:18px;height:18px"></i></a>
+      <a href="#demo" class="btn-ghost">see it in action</a>
+    </div>
+
+    <div class="stack-zone">
+      <div class="stack">
+        <div class="swipe-card c1">
+          <div class="sc-head"><div class="sc-dot"></div>Meherun's Kitchen</div>
+          <div class="sc-body">"POV: your biryani is so good it should be illegal 🍛🔥"</div>
+          <div class="sc-tag">Instagram · scheduled</div>
+        </div>
+        <div class="swipe-card c2">
+          <div class="sc-head"><div class="sc-dot"></div>Meherun's Kitchen</div>
+          <div class="sc-body">"same day delivery szn is HERE. order by 6pm 🛵💨"</div>
+          <div class="sc-tag">TikTok · scheduled</div>
+        </div>
+        <div class="swipe-card c3">
+          <div class="sc-head"><div class="sc-dot"></div>Meherun's Kitchen</div>
+          <div class="sc-body">"we don't do boring biryani, we do dadi's biryani 💫"</div>
+          <div class="sc-tag">AI writing now...</div>
+        </div>
+      </div>
+      <div class="stat-list">
+        <div class="stat-card pink"><div class="num">4.2h</div><div class="lbl">saved every single week</div></div>
+        <div class="stat-card"><div class="num">3.1×</div><div class="lbl">more consistent posting</div></div>
+        <div class="stat-card purple"><div class="num">28%</div><div class="lbl">avg engagement boost</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="platforms">
+  <div class="wrap">
+    <div class="platform-row">
+      <div class="platform-chip"><i data-lucide="instagram" style="width:18px;height:18px"></i> Instagram</div>
+      <div class="platform-chip"><i data-lucide="music-2" style="width:18px;height:18px"></i> TikTok</div>
+      <div class="platform-chip"><i data-lucide="youtube" style="width:18px;height:18px"></i> Shorts</div>
+      <div class="platform-chip"><i data-lucide="facebook" style="width:18px;height:18px"></i> Facebook</div>
+      <div class="platform-chip"><i data-lucide="linkedin" style="width:18px;height:18px"></i> LinkedIn</div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">how it works</div>
+      <h2>3 things replace your whole content grind</h2>
+      <p>no prompt engineering. no canva tabs open till 2am. no "sorry for the late post" captions ever again.</p>
+    </div>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon"><i data-lucide="pen-line"></i></div>
+        <h3>writes like you</h3>
+        <p>learns your vibe from old posts and drops captions that actually sound like your brand, not a robot.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon"><i data-lucide="palette"></i></div>
+        <h3>designs the graphic</h3>
+        <p>every caption gets a matching on-brand visual, made automatically. zero design skills required.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon"><i data-lucide="calendar-clock"></i></div>
+        <h3>posts on autopilot</h3>
+        <p>goes live at peak times on every platform, and replies to your comments while you're doing literally anything else.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head" style="margin:0 auto 50px;text-align:center">
+      <div class="kicker" style="margin-inline:auto">pricing</div>
+      <h2>no contracts, cancel whenever</h2>
+    </div>
+    <div class="pricing">
+      <div class="price-card">
+        <div class="price-name">starter</div>
+        <div class="price-amt">$29<span>/mo</span></div>
+        <div class="price-desc">one brand, one platform</div>
+        <ul class="price-list">
+          <li><i data-lucide="check" style="width:16px;height:16px"></i> 12 posts a month</li>
+          <li><i data-lucide="check" style="width:16px;height:16px"></i> AI captions + graphics</li>
+          <li><i data-lucide="check" style="width:16px;height:16px"></i> 1 connected platform</li>
+        </ul>
+        <a href="#" class="price-btn">pick this</a>
+      </div>
+      <div class="price-card popular">
+        <div class="popular-tag">everyone picks this</div>
+        <div class="price-name">growth</div>
+        <div class="price-amt">$79<span>/mo</span></div>
+        <div class="price-desc">for the daily-poster energy</div>
+        <ul class="price-list">
+          <li><i data-lucide="check" style="width:16px;height:16px"></i> unlimited posts</li>
+          <li><i data-lucide="check" style="width:16px;height:16px"></i> all 5 platforms</li>
+          <li><i data-lucide="check" style="width:16px;height:16px"></i> auto comment replies</li>
+          <li><i data-lucide="check" style="width:16px;height:16px"></i> weekly report</li>
+        </ul>
+        <a href="#" class="price-btn filled">pick this</a>
+      </div>
+      <div class="price-card">
+        <div class="price-name">agency</div>
+        <div class="price-amt">$199<span>/mo</span></div>
+        <div class="price-desc">run it for multiple clients</div>
+        <ul class="price-list">
+          <li><i data-lucide="check" style="width:16px;height:16px"></i> up to 10 brands</li>
+          <li><i data-lucide="check" style="width:16px;height:16px"></i> client approval flow</li>
+          <li><i data-lucide="check" style="width:16px;height:16px"></i> white-label reports</li>
+        </ul>
+        <a href="#" class="price-btn">pick this</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-logo">PostPilot 🚀</div>
+    <div>demo built by Arnab Aditya Das — AI Automation & Digital Solutions · concept demo, not a live product</div>
+  </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
