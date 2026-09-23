@@ -1,11 +1,18 @@
 # Netlify build configuration for arnabbuilds.com
 #
-# The Next.js adapter (@netlify/plugin-nextjs) is installed and kept current by
-# Netlify automatically. Netlify explicitly recommends NOT pinning it — "we
-# actively maintain the adapter to support all Next.js versions starting from
-# 13.5 and, if you don't pin the version, we will automatically use the latest
-# version on each project build for you." It is therefore deliberately absent
-# from package.json and from a [[plugins]] block here.
+# The Next.js adapter is declared here rather than left to auto-detection.
+# Auto-install is per-project, not per-repo: the preview project picked the
+# adapter up through the Netlify UI, but the production project did not, and
+# its first build published the raw .next directory with no server handler —
+# "No functions deployed" — which breaks routing on every path.
+#
+# The version is deliberately unpinned. Netlify's own guidance is not to pin
+# it: they maintain the adapter across Next.js versions and resolve the latest
+# compatible one on each build. Declaring the package without a version gets
+# both — guaranteed presence, automatic updates.
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
 
 [build]
   command = "npm run build"
