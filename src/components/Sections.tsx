@@ -72,10 +72,10 @@ export function Hero({ market }: { market: Market }) {
 export function About({ market }: { market: Market }) {
   const t = COPY[market].about;
   return (
-    <section id="about" className={`${section} bg-white`}>
+    <section id="about" className={section}>
       <div className={shell}>
         <div className="grid grid-cols-1 items-center gap-8 @[1120px]/page:grid-cols-[0.95fr_1.05fr] @[1120px]/page:gap-16">
-          <div className="@[1120px]/page:order-2 @[1120px]/page:justify-self-end">
+          <div className="reveal @[1120px]/page:order-2 @[1120px]/page:justify-self-end">
             {/* An environmental portrait, not a headshot: the cabin behind him is
                 the evidence for the aviation claim the copy makes. Sized to the
                 column so the 3:2 frame sits level with the text beside it. */}
@@ -92,7 +92,7 @@ export function About({ market }: { market: Market }) {
             </div>
           </div>
 
-          <div className="@[1120px]/page:order-1">
+          <div className="reveal @[1120px]/page:order-1">
             <p className="mb-[18px] inline-block rounded-full bg-hue-emerald-tint px-3.5 py-[7px] text-xs font-bold uppercase tracking-[.08em] text-brand">
               {t.eyebrow}
             </p>
@@ -137,7 +137,7 @@ export function Services({ market }: { market: Market }) {
   return (
     <section id="services" className={section}>
       <div className={shell}>
-        <div className="mb-8 max-w-[640px] @[720px]/page:mb-11 @[1120px]/page:mb-[60px]">
+        <div className="reveal mb-8 max-w-[640px] @[720px]/page:mb-11 @[1120px]/page:mb-[60px]">
           <h2 className="mb-3 text-h2">{t.h2}</h2>
           <p className="text-lead text-ink-soft">{t.lead}</p>
         </div>
@@ -152,7 +152,7 @@ export function Services({ market }: { market: Market }) {
                 : '';
             return (
               <article key={p.title}
-                className={`flex flex-col gap-[18px] rounded-[14px] border border-line bg-white p-[26px] transition-all duration-[260ms] ease-move hover:-translate-y-1.5 hover:shadow-[0_18px_38px_rgba(15,23,42,.1)] @[720px]/page:p-[30px] @[1120px]/page:p-9 ${hue.ring} ${span}`}>
+                className={`reveal flex flex-col gap-[18px] rounded-[14px] border border-line bg-white p-[26px] transition-all duration-[260ms] ease-move hover:-translate-y-1.5 hover:shadow-[0_20px_44px_-10px_rgba(4,120,87,.32)] @[720px]/page:p-[30px] @[1120px]/page:p-9 ${hue.ring} ${span}`}>
                 <div className={`flex h-[46px] w-[46px] items-center justify-center rounded-xl ${hue.tint} ${hue.ink}`}>
                   <Icon size={22} aria-hidden="true" />
                 </div>
@@ -184,7 +184,7 @@ export function Process({ market }: { market: Market }) {
   return (
     <section id="process" className={section}>
       <div className={shell}>
-        <div className="mx-auto mb-8 max-w-[640px] text-center @[720px]/page:mb-11 @[1120px]/page:mb-[60px]">
+        <div className="reveal mx-auto mb-8 max-w-[640px] text-center @[720px]/page:mb-11 @[1120px]/page:mb-[60px]">
           <h2 className="mb-3 text-h2">{t.h2}</h2>
           <p className="text-lead text-ink-soft">{t.lead}</p>
         </div>
@@ -192,7 +192,7 @@ export function Process({ market }: { market: Market }) {
         <div className="grid grid-cols-1 gap-3.5 @[720px]/page:grid-cols-2 @[720px]/page:gap-[18px] @[1120px]/page:grid-cols-4 @[1120px]/page:gap-6">
           {steps.map((s) => (
             <article key={s.n}
-              className="group flex items-start gap-4 rounded-xl border border-line bg-white p-[18px] @[1120px]/page:flex-col @[1120px]/page:items-center @[1120px]/page:gap-[18px] @[1120px]/page:px-6 @[1120px]/page:py-8 @[1120px]/page:text-center">
+              className="reveal group flex items-start gap-4 rounded-xl border border-line bg-white p-[18px] transition-all duration-[260ms] ease-move hover:-translate-y-1 hover:shadow-[0_16px_36px_-10px_rgba(4,120,87,.28)] @[1120px]/page:flex-col @[1120px]/page:items-center @[1120px]/page:gap-[18px] @[1120px]/page:px-6 @[1120px]/page:py-8 @[1120px]/page:text-center">
               <div className={`flex h-[46px] w-[46px] flex-none items-center justify-center rounded-full font-display text-[19px] font-bold text-white transition-transform duration-[280ms] ease-move group-hover:-rotate-[5deg] group-hover:scale-[1.09] @[1120px]/page:h-[60px] @[1120px]/page:w-[60px] @[1120px]/page:text-[23px] ${HUE[s.hue].solid}`}>
                 {s.n}
               </div>

@@ -130,6 +130,70 @@
   }
 
   .safe-bottom { padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)); }
+
+  /* --- aurora page background ------------------------------------------
+     Three large radial-gradient blobs, blurred and drifting on independent
+     loops. Decorative and aria-hidden, so no scroll timeline and no JS is
+     involved — plain @keyframes, which the sitewide reduced-motion rule at
+     the bottom of this file freezes for free. */
+  .aurora { opacity: .8; }
+
+  .aurora-blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(64px);
+    will-change: transform;
+  }
+  .aurora-blob--a {
+    top: -12%; left: -10%;
+    width: 46vw; height: 46vw;
+    background: radial-gradient(circle at 30% 30%, rgb(110 231 183 / .8), transparent 70%);
+    animation: aurora-drift-a 34s ease-in-out infinite alternate;
+  }
+  .aurora-blob--b {
+    top: 16%; right: -14%;
+    width: 40vw; height: 40vw;
+    background: radial-gradient(circle at 60% 40%, rgb(29 78 216 / .45), transparent 70%);
+    animation: aurora-drift-b 40s ease-in-out infinite alternate;
+  }
+  .aurora-blob--c {
+    bottom: -16%; left: 24%;
+    width: 42vw; height: 42vw;
+    background: radial-gradient(circle at 50% 50%, rgb(4 120 87 / .4), transparent 70%);
+    animation: aurora-drift-c 46s ease-in-out infinite alternate;
+  }
+  @keyframes aurora-drift-a { from { transform: translate(0,0) scale(1); } to { transform: translate(6vw, 8vh) scale(1.12); } }
+  @keyframes aurora-drift-b { from { transform: translate(0,0) scale(1); } to { transform: translate(-7vw, 6vh) scale(.92); } }
+  @keyframes aurora-drift-c { from { transform: translate(0,0) scale(1); } to { transform: translate(5vw, -6vh) scale(1.08); } }
+
+  /* --- scroll reveal -----------------------------------------------------
+     Visible by default, so content is never hidden if JS or the animation
+     fails. Browsers with native scroll-driven animations get pure CSS via
+     the @supports block. Firefox has no scroll-timeline support and gets
+     RevealObserver's IntersectionObserver instead, which opts elements into
+     the hidden state only at the moment it starts observing them.
+     Entry range only, transform and opacity only. */
+  .reveal { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports ((animation-timeline: view()) and (animation-range: entry)) {
+      .reveal {
+        animation: reveal-in auto linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 40%;
+      }
+    }
+    .reveal.reveal-js { opacity: 0; transform: translateY(22px); }
+    .reveal.reveal-js.is-revealed {
+      opacity: 1;
+      transform: none;
+      transition: opacity 620ms cubic-bezier(.22,.61,.36,1), transform 620ms cubic-bezier(.22,.61,.36,1);
+    }
+  }
+  @keyframes reveal-in {
+    from { opacity: 0; transform: translateY(22px); }
+    to { opacity: 1; transform: none; }
+  }
 }
 
 /* --- Bengali typography ----------------------------------------------

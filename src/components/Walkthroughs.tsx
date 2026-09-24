@@ -14,9 +14,9 @@ export default function Walkthroughs({ market }: { market: Market }) {
   const items = walkthroughsFor(market);
 
   return (
-    <section id="demos" className="border-b border-line bg-white py-14 @[720px]/page:py-[76px] @[1120px]/page:py-[104px]">
+    <section id="demos" className="border-b border-line py-14 @[720px]/page:py-[76px] @[1120px]/page:py-[104px]">
       <div className="mx-auto w-full max-w-[1312px] px-5 @[720px]/page:px-8 @[1120px]/page:px-14">
-        <div className="mb-8 max-w-[640px] @[720px]/page:mb-11 @[1120px]/page:mb-[60px]">
+        <div className="reveal mb-8 max-w-[640px] @[720px]/page:mb-11 @[1120px]/page:mb-[60px]">
           <h2 className="mb-3 text-h2">{t.h2}</h2>
           <p className="text-lead text-ink-soft">{t.lead}</p>
         </div>
@@ -30,7 +30,7 @@ export default function Walkthroughs({ market }: { market: Market }) {
                 href={w.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`group flex flex-col overflow-hidden rounded-[14px] border border-line bg-paper transition-all duration-[260ms] ease-move hover:-translate-y-1.5 hover:shadow-[0_18px_38px_rgba(15,23,42,.1)] ${hue.ring}`}
+                className={`reveal group flex flex-col overflow-hidden rounded-[14px] border border-line bg-white transition-all duration-[260ms] ease-move hover:-translate-y-1.5 hover:shadow-[0_20px_44px_-10px_rgba(4,120,87,.32)] ${hue.ring}`}
               >
                 <div className={`flex h-[104px] items-end justify-between p-[18px] text-white @[1120px]/page:h-[120px] ${hue.solid}`}>
                   <span className="font-display text-[19px] font-bold">{w.title}</span>

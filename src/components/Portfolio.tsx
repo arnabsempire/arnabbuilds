@@ -38,7 +38,7 @@ function CaseCard({
   const Icon = ICONS[study.icon];
 
   return (
-    <article className={`flex flex-col overflow-hidden rounded-[14px] border border-line bg-white transition-all duration-[260ms] ease-move hover:-translate-y-1.5 hover:shadow-[0_18px_38px_rgba(15,23,42,.1)] ${hue.ring}`}>
+    <article className={`reveal flex flex-col overflow-hidden rounded-[14px] border border-line bg-white transition-all duration-[260ms] ease-move hover:-translate-y-1.5 hover:shadow-[0_20px_44px_-10px_rgba(4,120,87,.32)] ${hue.ring}`}>
       <div className={`relative flex h-[124px] items-end justify-between p-[18px] text-white @[720px]/page:h-[140px] @[1120px]/page:h-[152px] ${hue.solid}`}>
         <span className={`transition-opacity duration-[240ms] ease-fade ${playing ? 'opacity-0' : 'opacity-100'}`}>
           <Icon size={30} strokeWidth={1.4} aria-hidden="true" />
@@ -146,7 +146,7 @@ export default function Portfolio({ market }: { market: Market }) {
   return (
     <section id="work" className="border-b border-line py-14 @[720px]/page:py-[76px] @[1120px]/page:py-[104px]">
       <div className="mx-auto w-full max-w-[1312px] px-5 @[720px]/page:px-8 @[1120px]/page:px-14">
-        <div className="mb-8 max-w-[640px] @[720px]/page:mb-11 @[1120px]/page:mb-[60px]">
+        <div className="reveal mb-8 max-w-[640px] @[720px]/page:mb-11 @[1120px]/page:mb-[60px]">
           <h2 className="mb-3 text-h2">{t.h2}</h2>
           <p className="text-lead text-ink-soft">{t.lead}</p>
         </div>

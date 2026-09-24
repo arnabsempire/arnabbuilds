@@ -43,10 +43,10 @@ export default function ContactForm({ market }: { market: Market }) {
   }
 
   return (
-    <section id="contact" className="border-b border-line bg-white py-14 @[720px]/page:py-[76px] @[1120px]/page:py-[104px]">
+    <section id="contact" className="border-b border-line py-14 @[720px]/page:py-[76px] @[1120px]/page:py-[104px]">
       <div className="mx-auto w-full max-w-[1312px] px-5 @[720px]/page:px-8 @[1120px]/page:px-14">
         <div className="grid grid-cols-1 gap-9 @[1120px]/page:grid-cols-[0.9fr_1.1fr] @[1120px]/page:gap-16">
-          <div>
+          <div className="reveal">
             <h2 className="mb-3 text-h2">{t.h2}</h2>
             <p className="mb-6 text-lead text-ink-soft">{t.lead}</p>
             <p className="text-[15px] leading-[1.65] text-ink-muted">
@@ -79,7 +79,7 @@ export default function ContactForm({ market }: { market: Market }) {
               method="POST"
               action="/__forms.html"
               onSubmit={onSubmit}
-              className="flex flex-col gap-4"
+              className="reveal flex flex-col gap-4"
             >
               <input type="hidden" name="form-name" value="enquiry" />
               <p className="hidden">
