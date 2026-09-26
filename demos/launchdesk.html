@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LaunchDesk — Business Setup & Automation, Fully Built For You</title>
+<meta name="description" content="LaunchDesk sets up your company's paperwork, tools, and daily workflows — delivered like a blueprint, built like infrastructure.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.454.0"></script>
+<style>
+  :root{
+    --navy:#0B3D5C; --navy-d:#082C43; --cyan:#4FA8D8; --cyan-l:#8FCBE8;
+    --paper:#EDEEF0; --paper-d:#DCE0E3; --amber:#E8A33D; --ink:#0A1220;
+    --line:rgba(11,61,92,.18);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-serif}
+  .display{font-family:'Space Grotesk',sans-serif}
+  .mono{font-family:'IBM Plex Mono',monospace}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 6%}
+  @media(prefers-reduced-motion: reduce){ *{animation:none!important;transition:none!important} }
+
+  /* blueprint grid background */
+  .blueprint-bg{
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:38px 38px;
+  }
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 6%;display:flex;align-items:center;justify-content:space-between;background:rgba(237,238,240,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem}
+  .logo-mark{width:32px;height:32px;border:2px solid var(--navy);border-radius:4px;display:flex;align-items:center;justify-content:center;color:var(--navy);font-weight:700;font-size:.85rem}
+  .nav-links{display:flex;gap:30px;font-size:.88rem;color:var(--navy)}
+  .nav-links a{opacity:.7}.nav-links a:hover{opacity:1}
+  .nav-cta{background:var(--navy);color:var(--paper);padding:10px 20px;border-radius:4px;font-weight:600;font-size:.85rem}
+  @media(max-width:820px){.nav-links{display:none}}
+
+  .hero{padding:150px 0 90px;position:relative}
+  .callout{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;border:1px solid var(--navy);border-radius:3px;font-size:.75rem;color:var(--navy);margin-bottom:26px}
+  .mono-tag{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--cyan);letter-spacing:.05em}
+
+  h1{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2.4rem,5vw,4.2rem);line-height:1.05;letter-spacing:-.01em;color:var(--navy-d);max-width:820px}
+  h1 u{text-decoration:none;border-bottom:4px solid var(--amber)}
+  .hero-sub{margin-top:22px;font-size:1.1rem;color:#3A4A55;max-width:600px;line-height:1.65}
+  .hero-ctas{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
+  .btn-primary{background:var(--navy);color:var(--paper);padding:15px 26px;border-radius:4px;font-weight:600;font-size:.92rem;display:inline-flex;align-items:center;gap:8px}
+  .btn-ghost{border:1.5px solid var(--navy);color:var(--navy);padding:14px 26px;border-radius:4px;font-weight:600;font-size:.92rem}
+
+  /* BLUEPRINT DIAGRAM - signature element */
+  .blueprint-panel{margin-top:70px;background:var(--navy-d);border-radius:10px;padding:44px 36px;position:relative;overflow:hidden}
+  .blueprint-panel::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(79,168,216,.15) 1px, transparent 1px),linear-gradient(90deg, rgba(79,168,216,.15) 1px, transparent 1px);background-size:28px 28px}
+  .bp-label{position:relative;font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--cyan-l);letter-spacing:.08em;margin-bottom:28px;text-transform:uppercase}
+  .bp-diagram{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+  @media(max-width:860px){.bp-diagram{grid-template-columns:1fr;gap:24px}}
+  .bp-node{position:relative;padding:0 18px}
+  .bp-node:not(:last-child)::after{content:'';position:absolute;top:26px;right:-2px;width:calc(100% - 40px);height:2px;background:repeating-linear-gradient(90deg,var(--cyan) 0 6px,transparent 6px 12px)}
+  @media(max-width:860px){.bp-node:not(:last-child)::after{display:none}}
+  .bp-num{width:52px;height:52px;border:2px solid var(--cyan);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;color:var(--cyan-l);font-weight:500;margin-bottom:18px}
+  .bp-node h4{font-family:'Space Grotesk',sans-serif;color:var(--paper);font-size:1.05rem;margin-bottom:8px}
+  .bp-node p{color:rgba(237,238,240,.6);font-size:.85rem;line-height:1.55}
+
+  section{padding:100px 0}
+  .section-head{max-width:640px;margin-bottom:54px}
+  .kicker{font-family:'IBM Plex Mono',monospace;color:var(--amber);font-size:.78rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+  h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.9rem,3.6vw,2.7rem);font-weight:700;color:var(--navy-d)}
+  .section-head p{margin-top:14px;color:#3A4A55;font-size:1.02rem;line-height:1.65}
+
+  .systems{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  @media(max-width:760px){.systems{grid-template-columns:1fr}}
+  .system{background:var(--paper);padding:36px}
+  .system-tag{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--cyan);margin-bottom:14px}
+  .system h3{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;color:var(--navy-d);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+  .system h3 i{width:22px;height:22px;color:var(--navy)}
+  .system p{color:#3A4A55;font-size:.92rem;line-height:1.6}
+  .system ul{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+  .system li{font-size:.85rem;color:#3A4A55;display:flex;gap:8px}
+  .system li i{width:15px;height:15px;color:var(--amber);flex-shrink:0;margin-top:2px}
+
+  .timeline{border-left:2px dashed var(--navy);padding-left:32px;display:flex;flex-direction:column;gap:38px;margin-left:10px}
+  .tl-item{position:relative}
+  .tl-item::before{content:'';position:absolute;left:-39px;top:2px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:2.5px solid var(--amber)}
+  .tl-week{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--cyan);margin-bottom:6px}
+  .tl-item h4{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;color:var(--navy-d);margin-bottom:6px}
+  .tl-item p{color:#3A4A55;font-size:.9rem;max-width:520px;line-height:1.6}
+
+  .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  @media(max-width:900px){.pricing{grid-template-columns:1fr}}
+  .price-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:32px}
+  .price-card.popular{border:2px solid var(--navy);position:relative}
+  .popular-tag{position:absolute;top:-13px;left:28px;background:var(--amber);color:var(--ink);font-size:.68rem;font-weight:700;padding:5px 12px;border-radius:3px;font-family:'IBM Plex Mono',monospace}
+  .price-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.05rem;color:var(--navy-d);margin-bottom:6px}
+  .price-amt{font-family:'Space Grotesk',sans-serif;font-size:2.2rem;font-weight:700;color:var(--navy-d)}
+  .price-amt span{font-size:.85rem;color:#6B7A85;font-weight:400}
+  .price-desc{font-size:.83rem;color:#6B7A85;margin:8px 0 22px}
+  .price-list{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:26px}
+  .price-list li{display:flex;gap:9px;font-size:.86rem;color:#3A4A55}
+  .price-list li i{color:var(--navy);width:16px;height:16px;flex-shrink:0;margin-top:2px}
+  .price-btn{display:block;text-align:center;padding:12px;border-radius:4px;font-weight:600;font-size:.88rem;border:1.5px solid var(--navy);color:var(--navy)}
+  .price-btn.filled{background:var(--navy);color:#fff;border:none}
+
+  footer{padding:56px 0 40px;border-top:1px solid var(--line);text-align:center;color:#6B7A85;font-size:.85rem}
+  .foot-logo{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--navy-d);margin-bottom:10px}
+</style>
+
+<style>
+  #cockpit-bridge{
+    position:sticky; top:0; z-index:999;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px)) 16px;
+    padding-top:calc(10px + env(safe-area-inset-top,0px));
+    background:#0A0612; border-bottom:1px solid #2C1E46;
+    font-family:Manrope,Segoe UI,system-ui,sans-serif;
+  }
+  #cockpit-bridge a.back{
+    display:inline-flex; align-items:center; gap:7px; color:#F6F2FC; text-decoration:none;
+    font-size:13.5px; font-weight:700; opacity:.92;
+  }
+  #cockpit-bridge a.back:hover{opacity:1; color:#FFB020}
+  #cockpit-bridge .brand{display:flex; align-items:center; gap:8px}
+  #cockpit-bridge .badge{
+    width:22px; height:22px; border-radius:6px; background:#A1580B; color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px;
+  }
+  #cockpit-bridge .tag{
+    font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+    color:#FFB020; background:rgba(255,176,32,.14); padding:4px 9px; border-radius:999px;
+    white-space:nowrap;
+  }
+  @media (max-width:480px){ #cockpit-bridge .tag{display:none} }
+</style>
+</head>
+<body class="blueprint-bg"><div id="cockpit-bridge"><a class="back" href="https://arnabbuilds.com/#demos"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>Back to Arnab Builds</a><span class="tag">Concept demo &middot; LaunchDesk</span></div>
+
+<nav>
+  <div class="logo"><div class="logo-mark">L</div>LaunchDesk</div>
+  <div class="nav-links">
+    <a href="#systems">Systems</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#pricing">Pricing</a>
+  </div>
+  <a href="#pricing" class="nav-cta">Get your blueprint</a>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="callout"><span class="mono-tag">DOC. 001</span> · Business Setup Blueprint</div>
+    <h1>Your business, <u>fully built</u> before you write a single email.</h1>
+    <p class="hero-sub">LaunchDesk sets up your registration paperwork, your invoicing, your CRM, and your daily workflows — delivered as a working system, not a checklist you have to finish yourself.</p>
+    <div class="hero-ctas">
+      <a href="#pricing" class="btn-primary">Get your blueprint <i data-lucide="arrow-right" style="width:16px;height:16px"></i></a>
+      <a href="#timeline" class="btn-ghost">See the 4-week build</a>
+    </div>
+
+    <div class="blueprint-panel">
+      <div class="bp-label">// SYSTEM.OVERVIEW — four modules, built in sequence</div>
+      <div class="bp-diagram">
+        <div class="bp-node">
+          <div class="bp-num">01</div>
+          <h4>Legal & Registration</h4>
+          <p>Company formation, licenses, and tax registration filed and confirmed.</p>
+        </div>
+        <div class="bp-node">
+          <div class="bp-num">02</div>
+          <h4>Finance Rails</h4>
+          <p>Business bank account, invoicing, and bookkeeping connected and automated.</p>
+        </div>
+        <div class="bp-node">
+          <div class="bp-num">03</div>
+          <h4>Client Systems</h4>
+          <p>CRM, lead capture forms, and follow-up sequences built and tested.</p>
+        </div>
+        <div class="bp-node">
+          <div class="bp-num">04</div>
+          <h4>Daily Workflows</h4>
+          <p>Scheduling, contracts, and reporting automated so nothing needs you daily.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="systems">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">What gets built</div>
+      <h2>Not advice. Working infrastructure.</h2>
+      <p>Most consultants hand you a PDF. LaunchDesk hands you accounts that are already set up, connected, and running.</p>
+    </div>
+    <div class="systems">
+      <div class="system">
+        <div class="system-tag">MODULE — LEGAL</div>
+        <h3><i data-lucide="file-check-2"></i>Registration & Compliance</h3>
+        <p>We file the paperwork and track it to approval, so you're not stuck refreshing a government portal.</p>
+        <ul>
+          <li><i data-lucide="check"></i> Trade license & tax ID filed</li>
+          <li><i data-lucide="check"></i> Contracts & terms templates drafted</li>
+          <li><i data-lucide="check"></i> Compliance calendar set up</li>
+        </ul>
+      </div>
+      <div class="system">
+        <div class="system-tag">MODULE — FINANCE</div>
+        <h3><i data-lucide="landmark"></i>Money In, Money Tracked</h3>
+        <p>Invoicing and bookkeeping connected from day one, so tax season isn't a scramble.</p>
+        <ul>
+          <li><i data-lucide="check"></i> Business account + payment gateway</li>
+          <li><i data-lucide="check"></i> Automated invoice + reminder flow</li>
+          <li><i data-lucide="check"></i> Monthly bookkeeping dashboard</li>
+        </ul>
+      </div>
+      <div class="system">
+        <div class="system-tag">MODULE — CLIENTS</div>
+        <h3><i data-lucide="users"></i>Lead-to-Client Pipeline</h3>
+        <p>A CRM that captures every inquiry and follows up automatically until they book.</p>
+        <ul>
+          <li><i data-lucide="check"></i> Lead capture form + CRM</li>
+          <li><i data-lucide="check"></i> Automated follow-up emails</li>
+          <li><i data-lucide="check"></i> Booking & proposal templates</li>
+        </ul>
+      </div>
+      <div class="system">
+        <div class="system-tag">MODULE — OPERATIONS</div>
+        <h3><i data-lucide="workflow"></i>Daily Workflow Automation</h3>
+        <p>The repetitive parts of running the business happen without you touching them.</p>
+        <ul>
+          <li><i data-lucide="check"></i> Scheduling & reminders automated</li>
+          <li><i data-lucide="check"></i> Weekly performance report</li>
+          <li><i data-lucide="check"></i> Document generation (contracts, receipts)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="timeline">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">The build</div>
+      <h2>Four weeks, start to running system</h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-week">WEEK 01</div>
+        <h4>Discovery & filing</h4>
+        <p>We map your business structure and file every registration and license needed to operate legally.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-week">WEEK 02</div>
+        <h4>Finance rails connected</h4>
+        <p>Business banking, invoicing, and bookkeeping go live and get tied to your registration.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-week">WEEK 03</div>
+        <h4>Client systems built</h4>
+        <p>Your CRM, lead forms, and follow-up automation are built around how you actually sell.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-week">WEEK 04</div>
+        <h4>Handover & training</h4>
+        <p>We walk you through every system live, then stay on for 30 days as you run it for real.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head" style="margin:0 auto 54px;text-align:center">
+      <div class="kicker" style="text-align:center">Pricing</div>
+      <h2>Choose how much gets built for you</h2>
+    </div>
+    <div class="pricing">
+      <div class="price-card">
+        <div class="price-name">Foundation</div>
+        <div class="price-amt">$497<span> one-time</span></div>
+        <div class="price-desc">Legal setup only</div>
+        <ul class="price-list">
+          <li><i data-lucide="check"></i> Registration & licensing filed</li>
+          <li><i data-lucide="check"></i> Contract templates</li>
+          <li><i data-lucide="check"></i> 1 week delivery</li>
+        </ul>
+        <a href="#" class="price-btn">Choose Foundation</a>
+      </div>
+      <div class="price-card popular">
+        <div class="popular-tag">MOST CHOSEN</div>
+        <div class="price-name">Full Build</div>
+        <div class="price-amt">$1,997<span> one-time</span></div>
+        <div class="price-desc">All 4 systems, connected</div>
+        <ul class="price-list">
+          <li><i data-lucide="check"></i> Legal, finance, CRM, workflows</li>
+          <li><i data-lucide="check"></i> 4-week guided build</li>
+          <li><i data-lucide="check"></i> 30 days of support after launch</li>
+        </ul>
+        <a href="#" class="price-btn filled">Choose Full Build</a>
+      </div>
+      <div class="price-card">
+        <div class="price-name">Managed</div>
+        <div class="price-amt">$497<span>/mo</span></div>
+        <div class="price-desc">Full Build + ongoing operation</div>
+        <ul class="price-list">
+          <li><i data-lucide="check"></i> Everything in Full Build</li>
+          <li><i data-lucide="check"></i> Monthly bookkeeping handled</li>
+          <li><i data-lucide="check"></i> System updates as you grow</li>
+        </ul>
+        <a href="#" class="price-btn">Choose Managed</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-logo">LaunchDesk</div>
+    <div>Demo built by Arnab Aditya Das — AI Automation & Digital Solutions · This is a concept demo, not a live product.</div>
+  </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
