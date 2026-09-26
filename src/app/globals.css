@@ -9,31 +9,119 @@
  */
 
 @layer base {
-  :root { color-scheme: light; }
-  body { @apply bg-paper text-ink antialiased; }
+  :root { color-scheme: dark; }
+  body { @apply bg-night text-ink-d antialiased; }
   h1, h2, h3, h4 { @apply font-display font-bold m-0; }
 
-  /* One visible focus ring for the whole site. */
+  /* One visible focus ring for the whole site, in whichever band it lands. */
   a:focus-visible,
   button:focus-visible {
-    @apply outline-none ring-[3px] ring-brand ring-offset-[3px] ring-offset-paper rounded-md;
-  }
-  .on-night a:focus-visible,
-  .on-night button:focus-visible {
-    @apply ring-brand-light ring-offset-night;
+    outline: none;
+    border-radius: 0.375rem;
+    box-shadow: 0 0 0 3px var(--b-surface), 0 0 0 6px var(--b-accent);
   }
 }
+
+/*
+ * --- the band system --------------------------------------------------
+ * The page alternates dark and light sections. Rather than styling every
+ * component twice, each band rebinds five variables and the components are
+ * written once against `b-ink`, `b-line`, `b-surface` and friends.
+ *
+ * These live outside @layer so they always win over a utility that sets the
+ * same property, and so a nested band cannot leak its parent's ink.
+ */
+.band-d {
+  --b-ink: #F6F2FC;
+  --b-ink-soft: #BCAFD4;
+  --b-ink-muted: #8A7CA6;
+  --b-line: #2C1E46;
+  --b-surface: rgb(26 16 48 / .72);
+  --b-accent: #B39CFB;
+  --b-accent-soft: rgb(179 156 251 / .13);
+  background-color: transparent;
+  color: var(--b-ink);
+}
+.band-l {
+  --b-ink: #1A1125;
+  --b-ink-soft: #544966;
+  --b-ink-muted: #6A6080;
+  --b-line: #E6E0F0;
+  --b-surface: #FFFFFF;
+  --b-accent: #5B21B6;
+  --b-accent-soft: rgb(91 33 182 / .08);
+  background-color: #FAF8FD;
+  color: var(--b-ink);
+}
+
+/* The seam. A hard edge between a dark band and the light one below it reads
+   as a rendering bug on a small screen; this fades the paper up into the
+   night over 56px. Only where the grounds actually change. */
+.band-l::before {
+  content: '';
+  position: absolute;
+  inset: -56px 0 auto;
+  height: 56px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, #FAF8FD);
+}
+.band-l + .band-l::before,
+.band-l:first-of-type::before { display: none; }
 
 @layer components {
   /* Word emphasis. The resting state is static and legible; the sweep is an
      enhancement, never a loop. */
   .focus-word {
     @apply inline-block rounded-[3px] bg-no-repeat;
-    background-image: linear-gradient(#6EE7B7, #6EE7B7);
+    background-image: linear-gradient(#B39CFB, #B39CFB);
     background-position: 0 92%;
     background-size: 100% 0.14em;
   }
   .focus-word--off { background-size: 0% 0.14em; }
+
+  /* --- the shimmer headline -------------------------------------------
+     A light pass crosses the h1 every six and a half seconds. Only on the
+     dark band: the gradient is built from near-white through violet and
+     coral, which would be invisible on paper, so the light band keeps a
+     plain ink fill. Clipped to the text, so nothing but the glyphs move. */
+  .band-d .shimmer {
+    background-image: linear-gradient(100deg, #F6F2FC 20%, #B39CFB 42%, #FB7185 56%, #F6F2FC 78%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer-sweep 6500ms cubic-bezier(.32,.72,0,1) infinite;
+  }
+  @keyframes shimmer-sweep {
+    0% { background-position: 120% 0; }
+    60%, 100% { background-position: -60% 0; }
+  }
+
+  /* --- WhatsApp -------------------------------------------------------
+     #25D366 is WhatsApp's own green and is reserved for this button on every
+     band; it appears nowhere else in the system, which is what makes it read
+     as the channel rather than as one more accent. Dark ink on it, never
+     white: white measures about 2.1:1 and fails AA. */
+  .btn-wa {
+    background-image: linear-gradient(115deg, #25D366, #5BE584, #25D366);
+    background-size: 220% 100%;
+    @apply text-wa-ink shadow-[0_12px_30px_-11px_rgba(37,211,102,.7)];
+    transition: background-position 700ms cubic-bezier(.32,.72,0,1), transform 200ms cubic-bezier(.32,.72,0,1);
+  }
+  .btn-wa:hover { background-position: 100% 0; }
+
+  /* --- tap ripple ------------------------------------------------------ */
+  .tap-ripple {
+    position: absolute;
+    border-radius: 9999px;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0);
+    background: radial-gradient(circle, var(--b-accent-soft), transparent 70%);
+    animation: tap-out 620ms cubic-bezier(.22,.61,.36,1) forwards;
+  }
+  @keyframes tap-out {
+    to { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+  }
 }
 
 @layer utilities {
@@ -129,42 +217,299 @@
     100% { opacity: 1; transform: translate(58.9cqw, 196px) rotate(5deg); }
   }
 
+
+  /* --- band-aware hue text and chips ------------------------------------
+     A service keeps its colour identity when the ground flips, which means
+     every hue needs two values and the band has to pick. Writing both as
+     utility classes on the element cannot work — whichever came last in the
+     stylesheet would always win — so the band selects instead. */
+  .band-d .hue-violet { color: #B39CFB; }
+  .band-l .hue-violet { color: #5B21B6; }
+  .band-d .chip-violet { background-color: color-mix(in srgb, #B39CFB 16%, transparent); color: #B39CFB; }
+  .band-l .chip-violet { background-color: #EDE9FE; color: #4C1D95; }
+  .band-d .hue-amber { color: #FFB020; }
+  .band-l .hue-amber { color: #A1580B; }
+  .band-d .chip-amber { background-color: color-mix(in srgb, #FFB020 16%, transparent); color: #FFB020; }
+  .band-l .chip-amber { background-color: #FEF3C7; color: #92400E; }
+  .band-d .hue-coral { color: #FB7185; }
+  .band-l .hue-coral { color: #9F1239; }
+  .band-d .chip-coral { background-color: color-mix(in srgb, #FB7185 16%, transparent); color: #FB7185; }
+  .band-l .chip-coral { background-color: #FFE4E6; color: #881337; }
+  .band-d .hue-sky { color: #7DD3FC; }
+  .band-l .hue-sky { color: #0369A1; }
+  .band-d .chip-sky { background-color: color-mix(in srgb, #7DD3FC 16%, transparent); color: #7DD3FC; }
+  .band-l .chip-sky { background-color: #E0F2FE; color: #075985; }
+  .band-d .hue-sodium { color: #FDBA74; }
+  .band-l .hue-sodium { color: #9A3412; }
+  .band-d .chip-sodium { background-color: color-mix(in srgb, #FDBA74 16%, transparent); color: #FDBA74; }
+  .band-l .chip-sodium { background-color: #FFEDD5; color: #7C2D12; }
+  .band-d .hue-indigo { color: #818CF8; }
+  .band-l .hue-indigo { color: #3730A3; }
+  .band-d .chip-indigo { background-color: color-mix(in srgb, #818CF8 16%, transparent); color: #818CF8; }
+  .band-l .chip-indigo { background-color: #E0E7FF; color: #312E81; }
+
+
+  /* ══ the process journey ═══════════════════════════════════════════════
+     Four steps drawn as four destinations on a route, with a plane that
+     flies the route as the section scrolls and parks at handover.
+
+     The landing is in the keyframes, not the timeline: the plane reaches a
+     stop's offset-distance and holds there for a slice of the scroll before
+     moving on. A constant-speed pass over the markers reads as a flyover;
+     the hold is what reads as landing.
+
+     Stop percentages were measured against the real path geometry with
+     getPointAtLength, not estimated — horizontal 0 / 32.8 / 67 / 100,
+     vertical 0 / 32 / 65 / 100, both within 0.3 user units. */
+
+  .journey { position: relative; }
+
+  .journey-svg { display: block; overflow: visible; }
+  .journey-svg--h { display: none; width: 100%; height: auto; margin-bottom: 30px; }
+  .journey-svg--v {
+    position: absolute;
+    left: 0; top: 0;
+    width: 92px;
+    height: 100%;
+  }
+  @container page (min-width: 1120px) {
+    .journey-svg--h { display: block; }
+    .journey-svg--v { display: none; }
+  }
+
+  .journey-line {
+    stroke: var(--b-line);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 7 11;
+    fill: none;
+  }
+
+  .journey-dot { stroke: var(--b-surface); stroke-width: 3; }
+  .journey-halo { opacity: 0; }
+  .journey-num {
+    font-family: var(--font-manrope), system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    text-anchor: middle;
+    fill: var(--b-surface);
+  }
+  .band-d .journey-num { fill: #0A0612; }
+  .journey-svg--v .journey-num { font-size: 9px; }
+
+  .band-d .journey-dot--violet { fill: #B39CFB; }
+  .band-l .journey-dot--violet { fill: #5B21B6; }
+  .band-d .journey-halo--violet { fill: #B39CFB; }
+  .band-l .journey-halo--violet { fill: #5B21B6; }
+  .band-d .journey-dot--amber { fill: #FFB020; }
+  .band-l .journey-dot--amber { fill: #A1580B; }
+  .band-d .journey-halo--amber { fill: #FFB020; }
+  .band-l .journey-halo--amber { fill: #A1580B; }
+  .band-d .journey-dot--coral { fill: #FB7185; }
+  .band-l .journey-dot--coral { fill: #9F1239; }
+  .band-d .journey-halo--coral { fill: #FB7185; }
+  .band-l .journey-halo--coral { fill: #9F1239; }
+  .band-d .journey-dot--sky { fill: #7DD3FC; }
+  .band-l .journey-dot--sky { fill: #0369A1; }
+  .band-d .journey-halo--sky { fill: #7DD3FC; }
+  .band-l .journey-halo--sky { fill: #0369A1; }
+  .band-d .journey-dot--sodium { fill: #FDBA74; }
+  .band-l .journey-dot--sodium { fill: #9A3412; }
+  .band-d .journey-halo--sodium { fill: #FDBA74; }
+  .band-l .journey-halo--sodium { fill: #9A3412; }
+  .band-d .journey-dot--indigo { fill: #818CF8; }
+  .band-l .journey-dot--indigo { fill: #3730A3; }
+  .band-d .journey-halo--indigo { fill: #818CF8; }
+  .band-l .journey-halo--indigo { fill: #3730A3; }
+
+  /* Resting state: every destination reached, plane parked at handover. This
+     is also exactly what Firefox and reduced-motion viewers get, and it is a
+     correct picture of the process rather than a broken animation. */
+  .journey-stop { opacity: 1; }
+  .journey-plane { color: var(--b-accent); offset-rotate: auto; offset-distance: 100%; }
+  .journey-plane--h { offset-path: path('M 80 158 C 220 120, 300 82, 420 92 C 560 104, 650 124, 780 142 C 900 160, 1000 118, 1120 72'); }
+  .journey-plane--v { offset-path: path('M 34 52 C 82 130, 92 222, 60 300 C 30 380, 22 472, 58 560 C 92 650, 96 742, 62 836'); transform: scale(.9); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports ((animation-timeline: view()) and (animation-range: entry)) {
+      #process { view-timeline: --journey; }
+
+      .journey-plane,
+      .journey-stop,
+      .journey-halo,
+      .journey-card {
+        animation-timeline: --journey;
+        animation-range: entry 24% cover 78%;
+        animation-fill-mode: both;
+        animation-timing-function: linear;
+      }
+      .journey-plane--h { animation-name: fly-h; }
+      .journey-plane--v { animation-name: fly-v; }
+
+      .journey-stop:nth-of-type(1) { animation-name: arrive-1; }
+      .journey-stop:nth-of-type(2) { animation-name: arrive-2; }
+      .journey-stop:nth-of-type(3) { animation-name: arrive-3; }
+      .journey-stop:nth-of-type(4) { animation-name: arrive-4; }
+
+      .journey-card:nth-child(1) { animation-name: card-1; }
+      .journey-card:nth-child(2) { animation-name: card-2; }
+      .journey-card:nth-child(3) { animation-name: card-3; }
+      .journey-card:nth-child(4) { animation-name: card-4; }
+    }
+  }
+
+  /* Hold, fly, hold, fly, hold, fly, park. */
+  @keyframes fly-h {
+    0%, 9%    { offset-distance: 0%; }
+    28%, 37%  { offset-distance: 32.8%; }
+    56%, 65%  { offset-distance: 67%; }
+    88%, 100% { offset-distance: 100%; }
+  }
+  @keyframes fly-v {
+    0%, 9%    { offset-distance: 0%; }
+    28%, 37%  { offset-distance: 32%; }
+    56%, 65%  { offset-distance: 65%; }
+    88%, 100% { offset-distance: 100%; }
+  }
+
+  /* A destination is dim until the plane is on approach, then it lights. */
+  @keyframes arrive-1 { 0% { opacity: .3; } 6%, 100% { opacity: 1; } }
+  @keyframes arrive-2 { 0%, 22% { opacity: .3; } 28%, 100% { opacity: 1; } }
+  @keyframes arrive-3 { 0%, 50% { opacity: .3; } 56%, 100% { opacity: 1; } }
+  @keyframes arrive-4 { 0%, 82% { opacity: .3; } 88%, 100% { opacity: 1; } }
+
+  @keyframes card-1 { 0% { opacity: .38; transform: translateY(10px); } 8%, 100% { opacity: 1; transform: none; } }
+  @keyframes card-2 { 0%, 22% { opacity: .38; transform: translateY(10px); } 30%, 100% { opacity: 1; transform: none; } }
+  @keyframes card-3 { 0%, 50% { opacity: .38; transform: translateY(10px); } 58%, 100% { opacity: 1; transform: none; } }
+  @keyframes card-4 { 0%, 82% { opacity: .38; transform: translateY(10px); } 90%, 100% { opacity: 1; transform: none; } }
+
+  /* Cards: a column beside the vertical rail, a row under the horizontal one. */
+  .journey-cards {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 34px;
+    padding-left: 112px;
+  }
+  @container page (min-width: 1120px) {
+    .journey-cards { grid-template-columns: repeat(4, 1fr); gap: 24px; padding-left: 0; }
+  }
+  .journey-card { min-height: 92px; }
+  .journey-card-n {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    font-family: var(--font-fraunces), Georgia, serif;
+    font-size: 1.45rem;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 9px;
+    font-variant-numeric: tabular-nums;
+  }
+  .journey-card-rule { flex: 1; height: 1px; background: var(--b-line); }
+
   .safe-bottom { padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)); }
 
-  /* --- aurora page background ------------------------------------------
-     Three large radial-gradient blobs, blurred and drifting on independent
-     loops. Decorative and aria-hidden, so no scroll timeline and no JS is
-     involved — plain @keyframes, which the sitewide reduced-motion rule at
-     the bottom of this file freezes for free. */
-  .aurora { opacity: .8; }
+  /* The hint is hidden by default and revealed only below 720px. This
+     declaration must come BEFORE the container query: both selectors carry
+     the same specificity, so source order decides, and the reverse silently
+     hides the hint at every width. */
+  .swipe-hint { display: none; }
 
-  .aurora-blob {
-    position: absolute;
-    border-radius: 9999px;
-    filter: blur(64px);
-    will-change: transform;
+  /* --- swipe carousel --------------------------------------------------
+     Below 720px the service pillars stop being a stacked column and become
+     snapped slides. Four stacked cards is four screens of scrolling on a
+     phone; four snapped slides is one thumb gesture. Pure CSS scroll-snap —
+     no carousel library, and no JavaScript anywhere in the scroll path.
+
+     The negative margin plus matching padding lets the track bleed to both
+     screen edges while the first and last slide still align to the page
+     gutter, which is what makes it feel native rather than boxed in. */
+  @container page (max-width: 719px) {
+    .swipe-track {
+      display: flex;
+      grid-template-columns: none;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: 1.25rem;
+      margin-inline: -1.25rem;
+      padding-inline: 1.25rem;
+      padding-block: 0.25rem 0.875rem;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .swipe-track::-webkit-scrollbar { display: none; }
+    .swipe-track > * {
+      flex: 0 0 84%;
+      scroll-snap-align: center;
+    }
+    .swipe-hint { display: flex; }
   }
-  .aurora-blob--a {
-    top: -12%; left: -10%;
-    width: 46vw; height: 46vw;
-    background: radial-gradient(circle at 30% 30%, rgb(110 231 183 / .8), transparent 70%);
-    animation: aurora-drift-a 34s ease-in-out infinite alternate;
+
+  /* Each slide dims and shrinks away from centre, so the snapped one is
+     obviously the active one. `view(inline)` tracks the horizontal axis —
+     the default block axis would measure the wrong direction entirely. */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports ((animation-timeline: view()) and (animation-range: entry)) {
+      @container page (max-width: 719px) {
+        .swipe-track > * {
+          animation: slide-focus linear both;
+          animation-timeline: view(inline);
+          animation-range: entry 12% exit 88%;
+        }
+      }
+    }
   }
-  .aurora-blob--b {
-    top: 16%; right: -14%;
-    width: 40vw; height: 40vw;
-    background: radial-gradient(circle at 60% 40%, rgb(29 78 216 / .45), transparent 70%);
-    animation: aurora-drift-b 40s ease-in-out infinite alternate;
+  @keyframes slide-focus {
+    0% { opacity: .45; transform: scale(.92); }
+    42%, 58% { opacity: 1; transform: none; }
+    100% { opacity: .45; transform: scale(.92); }
   }
-  .aurora-blob--c {
-    bottom: -16%; left: 24%;
-    width: 42vw; height: 42vw;
-    background: radial-gradient(circle at 50% 50%, rgb(4 120 87 / .4), transparent 70%);
-    animation: aurora-drift-c 46s ease-in-out infinite alternate;
+
+  /* --- sticky action bar -----------------------------------------------
+     Rises once the visitor is past the hero, on a scroll-progress timeline
+     rather than a scroll listener. This is the highest-value element on the
+     page: it means the WhatsApp button is never something you have to scroll
+     back up to find, which is also what makes putting About in slot two
+     safe. */
+  /* Visible is the resting state, deliberately. A call-to-action that is
+     hidden until an animation runs is a bug, not a missing flourish — and the
+     animation is exactly what does not run under reduced motion or on Firefox.
+     So the bar is present by default and only the browsers that can actually
+     animate it opt into starting it off-screen. */
+  .action-bar { opacity: 1; translate: 0 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll()) {
+      .action-bar {
+        opacity: 0;
+        translate: 0 100%;
+        animation: bar-rise linear both;
+        animation-timeline: scroll();
+        animation-range: 60px 240px;
+      }
+    }
   }
-  @keyframes aurora-drift-a { from { transform: translate(0,0) scale(1); } to { transform: translate(6vw, 8vh) scale(1.12); } }
-  @keyframes aurora-drift-b { from { transform: translate(0,0) scale(1); } to { transform: translate(-7vw, 6vh) scale(.92); } }
-  @keyframes aurora-drift-c { from { transform: translate(0,0) scale(1); } to { transform: translate(5vw, -6vh) scale(1.08); } }
+  @keyframes bar-rise { to { opacity: 1; translate: 0 0; } }
+
+  /* --- cursor spotlight -------------------------------------------------
+     Desktop only by construction: it is driven by pointer coordinates, so a
+     phone never lights it. A reward for the mouse, never the thing carrying
+     the hero. */
+  .spotlight {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 400ms ease;
+    background: radial-gradient(
+      circle 420px at var(--sx, 50%) var(--sy, 35%),
+      rgb(179 156 251 / .13),
+      rgb(251 113 133 / .05) 55%,
+      transparent 72%
+    );
+  }
+  .spotlight[data-lit='true'] { opacity: 1; }
 
   /* --- scroll reveal -----------------------------------------------------
      Visible by default, so content is never hidden if JS or the animation
@@ -206,6 +551,35 @@
 [lang='bn'] h2 {
   letter-spacing: 0;
   line-height: 1.25;
+}
+
+/* Bengali on the dark bands.
+   Light text on a dark ground blooms — irradiation makes the strokes read
+   heavier than the same weight does on paper, and in Bengali that closes the
+   matras and the conjunct joins first. Noto Sans Bengali is variable 400-800,
+   so the fix is one weight step down plus a hair of tracking to reopen the
+   counters. Both only where the ground is dark; the light bands keep the
+   weights as drawn. */
+.band-d [lang='bn'] h1,
+.band-d [lang='bn'] h2,
+.band-d [lang='bn'] h3,
+.band-d [lang='bn'] h4,
+[lang='bn'] .band-d h1,
+[lang='bn'] .band-d h2,
+[lang='bn'] .band-d h3,
+[lang='bn'] .band-d h4 {
+  font-weight: 600;
+  letter-spacing: 0.012em;
+}
+[lang='bn'] .band-d,
+.band-d [lang='bn'] {
+  letter-spacing: 0.006em;
+}
+[lang='bn'] .band-d strong,
+[lang='bn'] .band-d b,
+.band-d [lang='bn'] strong,
+.band-d [lang='bn'] b {
+  font-weight: 600;
 }
 [lang='bn'] .tracking-\[\.08em\],
 [lang='bn'] .tracking-\[\.1em\],

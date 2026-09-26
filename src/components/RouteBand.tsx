@@ -18,7 +18,7 @@ export default function RouteBand({ market }: { market: Market }) {
     <section className="on-night bg-night py-12 text-slate-300 @[1120px]/page:py-[72px]">
       <div className="mx-auto w-full max-w-[1312px] px-5 @[720px]/page:px-8 @[1120px]/page:px-14">
         <div className="mb-5 max-w-[620px]">
-          <p className="mb-4 inline-block rounded-full bg-night-2 px-3.5 py-[7px] text-xs font-bold uppercase tracking-[.08em] text-brand-light">
+          <p className="mb-4 inline-block rounded-full bg-night-2 px-3.5 py-[7px] text-xs font-bold uppercase tracking-[.08em] text-b-accent-light">
             {t.eyebrow}
           </p>
           <h2 className="mb-2.5 text-h2 text-slate-50">{t.h2}</h2>

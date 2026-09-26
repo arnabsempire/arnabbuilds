@@ -1,4 +1,4 @@
-import { SITE, type Market } from './site';
+import { SITE, waLink, type Market } from './site';
 
 /**
  * Every user-facing string, keyed by market.
@@ -7,7 +7,7 @@ import { SITE, type Market } from './site';
  * is Bengali, while the words buyers already shop for stay in English — AI,
  * automation, WhatsApp, Next.js, Supabase, CRM. Translating those into Bengali
  * equivalents would make the page harder to scan for the exact audience it is
- * meant to convert. Numerals stay Western throughout so they match the ৳ prices.
+ * meant to convert. Numerals stay Western throughout for consistency.
  */
 
 export type Action = {
@@ -29,13 +29,13 @@ export type Copy = {
     leadStrong: string;
     leadRest: string;
     stats: [string, string][];
-    cards: [string, string, string][];
   };
   about: {
     eyebrow: string;
     name: string;
     p1: string;
     p2: string;
+    p3: string;
     backgroundLabel: string;
     backgroundValue: string;
     backgroundNote: string;
@@ -46,7 +46,7 @@ export type Copy = {
     emailCta: string;
   };
   route: { eyebrow: string; h2: string; lead: string };
-  services: { h2: string; lead: string; noPrice: string; cta: string };
+  services: { h2: string; lead: string; bookCta: string; cta: string; swipeHint: string };
   process: { h2: string; lead: string };
   work: {
     h2: string;
@@ -109,6 +109,8 @@ export type Copy = {
     builtWith: string;
   };
   actionBar: { whatsapp: string; call: string };
+  /** First lines for the prefilled WhatsApp compose box. */
+  wa: { hero: string; contact: string; closing: string; bar: string; service: (s: string) => string };
 };
 
 const intl: Copy = {
@@ -129,31 +131,34 @@ const intl: Copy = {
     h1: 'Automate, Build, Scale — With AI That Works',
     leadStrong: 'From flight emergencies to digital transformation.',
     leadRest:
-      'Nine years of aviation operations taught me what reliability costs when it fails. That discipline goes into every build.',
+      'Aviation taught me what reliability costs when it fails. That discipline now runs on AI agents, automation pipelines and code I audit myself.',
     stats: [
-      ['9 years', 'Aviation operations'],
-      ['4 aircraft', 'Boeing & regional jets'],
-      ['Certified', 'Evacuation & crisis response'],
-    ],
-    cards: [
-      ['Uptime', '99.9%', 'Production reliability target'],
-      ['Performance', 'Sub-3s', 'Page load on 3G'],
-      ['Score', '90+', 'Lighthouse rating'],
+      ['Aviation-trained', 'Purser, live emergency response'],
+      ['AI & automation', 'Agents, LLM workflows, n8n pipelines'],
+      ['Security-minded', 'Site audits and vulnerability checks'],
     ],
   },
   about: {
     eyebrow: 'Meet the founder',
     name: SITE.founder,
-    p1: 'I spent nine years in commercial aviation as a Flight Attendant and Purser — managing live cabin emergencies, coordinating crisis response and leading crews through evacuations, a crash landing and an in-cabin fire. That work teaches precision and calm under pressure in a way nothing else does.',
-    p2: 'I moved into technology with a BBA in Marketing and commercial experience across Nestlé, Uniqlo and Grameen. Today the same crisis-management discipline goes into AI automation, high-performance websites and custom web applications.',
+    p1: 'I build AI agents and LLM workflows, automation pipelines that wire a business\u2019s existing tools together, conversion websites and custom web applications. Alongside that I run security audits \u2014 vulnerability checks on sites I ship and sites I am asked to look at \u2014 because it is the part of the craft I find hardest to put down.',
+    p2: 'The discipline came from somewhere unusual. I spent nine years in commercial aviation, ending as a purser: live cabin emergencies, crisis response, crews led through an evacuation, a crash landing and an in-cabin fire. Aviation teaches that a system is only as good as what it does on its worst day, and that checklists exist because memory fails.',
+    p3: 'The route between the two ran through a BBA in Marketing, commercial roles at Nestl\u00e9 and Apex Leathercraft, and freelance work advising clients on what to build before building it \u2014 small design jobs through to full-stack software.',
     backgroundLabel: 'Background',
-    backgroundValue: 'Aviation + marketing',
-    backgroundNote: '9 years operations, 4 aircraft types',
-    expertiseLabel: 'Expertise',
-    expertiseValue: 'AI & automation',
-    expertiseNote: 'Next.js, Supabase, n8n',
+    backgroundValue: 'Aviation and commercial',
+    backgroundNote: 'Purser; Nestlé, Apex Leathercraft',
+    expertiseLabel: 'Focus now',
+    expertiseValue: 'AI, automation, security',
+    expertiseNote: 'Next.js, Supabase, n8n, LLM tooling',
     linkedinCta: 'Connect on LinkedIn',
     emailCta: 'Get in touch',
+  },
+  wa: {
+    hero: "Hi Arnab — I'd like to book a discovery call.",
+    contact: "Hi Arnab — I'd like to talk about a project.",
+    closing: "Hi Arnab — I'd like to book a discovery call.",
+    bar: "Hi Arnab — I'd like to book a discovery call.",
+    service: (s: string) => `Hi Arnab — I'd like to talk about ${s}.`,
   },
   route: {
     eyebrow: 'Dual market',
@@ -163,8 +168,9 @@ const intl: Copy = {
   services: {
     h2: 'Four pillars of service',
     lead: 'Custom solutions built around reliability, precision and the outcome you are actually paying for.',
-    noPrice: 'Scoped and quoted on the discovery call.',
+    bookCta: 'Book a call',
     cta: 'See the work →',
+    swipeHint: 'Swipe through all four',
   },
   process: {
     h2: 'A transparent four-step process',
@@ -222,7 +228,7 @@ const intl: Copy = {
     sub: 'Two ways in: an international consultation call, or a direct WhatsApp line for Bangladesh.',
     takeOff: 'Take off',
     left: { label: 'Book a call', href: SITE.cal, external: true, variant: 'solid' },
-    right: { label: 'WhatsApp', href: SITE.whatsapp, external: true, variant: 'ghost' },
+    right: { label: 'WhatsApp', href: waLink("Hi Arnab — I'd like to book a discovery call."), external: true, variant: 'ghost' },
   },
   footer: {
     tagline: SITE.tagline,
@@ -262,31 +268,34 @@ const bd: Copy = {
     h1: 'অটোমেট, বিল্ড, স্কেল — কাজ করে এমন AI দিয়ে',
     leadStrong: 'ফ্লাইট ইমার্জেন্সি থেকে ডিজিটাল ট্রান্সফরমেশন।',
     leadRest:
-      'নয় বছর এভিয়েশন অপারেশনসে কাজ করে শিখেছি, নির্ভরযোগ্যতা ভেঙে পড়লে তার দাম কত। সেই ডিসিপ্লিনই প্রতিটি বিল্ডে থাকে।',
+      'এভিয়েশন শিখিয়েছে, নির্ভরযোগ্যতা ভেঙে পড়লে তার দাম কত। সেই ডিসিপ্লিনই এখন চলে AI এজেন্ট, অটোমেশন পাইপলাইন আর নিজের অডিট করা কোডের উপর।',
     stats: [
-      ['9 বছর', 'এভিয়েশন অপারেশনস'],
-      ['4টি এয়ারক্রাফট', 'বোয়িং ও রিজিওনাল জেট'],
-      ['সার্টিফায়েড', 'ইভ্যাকুয়েশন ও ক্রাইসিস রেসপন্স'],
-    ],
-    cards: [
-      ['আপটাইম', '99.9%', 'প্রোডাকশন রিলায়েবিলিটি টার্গেট'],
-      ['পারফরম্যান্স', 'Sub-3s', '3G-তে পেজ লোড'],
-      ['স্কোর', '90+', 'Lighthouse রেটিং'],
+      ['এভিয়েশন-ট্রেইনড', 'পার্সার, লাইভ ইমার্জেন্সি রেসপন্স'],
+      ['AI ও অটোমেশন', 'এজেন্ট, LLM ওয়ার্কফ্লো, n8n পাইপলাইন'],
+      ['সিকিউরিটি-সচেতন', 'সাইট অডিট আর vulnerability চেক'],
     ],
   },
   about: {
     eyebrow: 'ফাউন্ডার সম্পর্কে',
     name: 'অর্ণব আদিত্য দাশ',
-    p1: 'নয় বছর কমার্শিয়াল এভিয়েশনে ফ্লাইট অ্যাটেনডেন্ট ও পার্সার হিসেবে কাজ করেছি — লাইভ কেবিন ইমার্জেন্সি সামলেছি, ক্রাইসিস রেসপন্স কোঅর্ডিনেট করেছি, আর ইভ্যাকুয়েশন, একটি ক্র্যাশ ল্যান্ডিং ও কেবিনে আগুনের মধ্য দিয়ে ক্রুদের নেতৃত্ব দিয়েছি। চাপের মধ্যে নিখুঁত থাকা আর স্থির থাকা — এই কাজ যেভাবে শেখায়, আর কিছুই সেভাবে শেখায় না।',
-    p2: 'মার্কেটিংয়ে BBA আর Nestlé, Uniqlo ও Grameen-এ কমার্শিয়াল অভিজ্ঞতা নিয়ে টেকনোলজিতে এসেছি। আজ সেই একই ক্রাইসিস-ম্যানেজমেন্ট ডিসিপ্লিন কাজে লাগে AI অটোমেশন, হাই-পারফরম্যান্স ওয়েবসাইট আর কাস্টম ওয়েব অ্যাপ্লিকেশনে।',
+    p1: 'আমি AI এজেন্ট আর LLM ওয়ার্কফ্লো বানাই, অটোমেশন পাইপলাইন যেগুলো একটা ব্যবসার চালু টুলগুলোকে একসাথে জুড়ে দেয়, কনভার্শন ওয়েবসাইট আর কাস্টম ওয়েব অ্যাপ্লিকেশন। পাশাপাশি সিকিউরিটি অডিট করি — যে সাইট আমি বানাই আর যেগুলো দেখতে বলা হয়, দুটোরই vulnerability চেক। কাজের এই অংশটাই সবচেয়ে বেশি টানে।',
+    p2: 'এই ডিসিপ্লিনটা এসেছে একটু অন্য জায়গা থেকে। নয় বছর কমার্শিয়াল এভিয়েশনে ছিলাম, শেষ করেছি পার্সার হিসেবে — লাইভ কেবিন ইমার্জেন্সি, ক্রাইসিস রেসপন্স, আর ইভ্যাকুয়েশন, একটি ক্র্যাশ ল্যান্ডিং ও কেবিনে আগুনের মধ্য দিয়ে ক্রুদের নেতৃত্ব। এভিয়েশন শেখায়, একটা সিস্টেম ততটাই ভালো যতটা সে সবচেয়ে খারাপ দিনে করতে পারে; আর চেকলিস্ট থাকে কারণ স্মৃতির উপর ভরসা চলে না।',
+    p3: 'দুটোর মাঝের পথটা গেছে মার্কেটিংয়ে BBA, Nestlé আর Apex Leathercraft-এ কমার্শিয়াল রোল, আর ফ্রিল্যান্স কাজের ভেতর দিয়ে — ক্লায়েন্টকে কী বানানো দরকার সেই পরামর্শ দিয়ে, তারপর সেটাই বানিয়ে; ছোট ডিজাইন কাজ থেকে ফুল-স্ট্যাক সফটওয়্যার পর্যন্ত।',
     backgroundLabel: 'ব্যাকগ্রাউন্ড',
-    backgroundValue: 'এভিয়েশন + মার্কেটিং',
-    backgroundNote: '9 বছর অপারেশনস, 4 ধরনের এয়ারক্রাফট',
-    expertiseLabel: 'এক্সপার্টিজ',
-    expertiseValue: 'AI ও অটোমেশন',
-    expertiseNote: 'Next.js, Supabase, n8n',
+    backgroundValue: 'এভিয়েশন ও কমার্শিয়াল',
+    backgroundNote: 'পার্সার; Nestlé, Apex Leathercraft',
+    expertiseLabel: 'এখনকার ফোকাস',
+    expertiseValue: 'AI, অটোমেশন, সিকিউরিটি',
+    expertiseNote: 'Next.js, Supabase, n8n, LLM টুলিং',
     linkedinCta: 'LinkedIn-এ যুক্ত হোন',
     emailCta: 'যোগাযোগ করুন',
+  },
+  wa: {
+    hero: 'হ্যালো Arnab — আমি একটা ডিসকভারি কল বুক করতে চাই।',
+    contact: 'হ্যালো Arnab — একটা প্রজেক্ট নিয়ে কথা বলতে চাই।',
+    closing: 'হ্যালো Arnab — আমি একটা ডিসকভারি কল বুক করতে চাই।',
+    bar: 'হ্যালো Arnab — আমি একটা ডিসকভারি কল বুক করতে চাই।',
+    service: (s: string) => `হ্যালো Arnab — ${s} নিয়ে কথা বলতে চাই।`,
   },
   route: {
     eyebrow: 'ডুয়াল মার্কেট',
@@ -296,7 +305,8 @@ const bd: Copy = {
   services: {
     h2: 'সার্ভিসের চারটি স্তম্ভ',
     lead: 'নির্ভরযোগ্যতা, নিখুঁততা আর আপনি আসলে যে ফলাফলের জন্য টাকা দিচ্ছেন — সব ঘিরে তৈরি কাস্টম সলিউশন।',
-    noPrice: 'ডিসকভারি কলে স্কোপ আর কোট ঠিক হয়।',
+    bookCta: 'কল বুক করুন',
+    swipeHint: 'চারটিই দেখতে সোয়াইপ করুন',
     cta: 'কাজ দেখুন →',
   },
   process: {
@@ -357,7 +367,7 @@ const bd: Copy = {
     sub: 'দুটো পথ: সরাসরি WhatsApp, অথবা একটি কনসাল্টেশন কল বুক করা।',
     takeOff: 'টেক অফ',
     left: { label: 'কল বুক করুন', href: SITE.cal, external: true, variant: 'ghost' },
-    right: { label: 'WhatsApp — বাংলাদেশ', href: SITE.whatsapp, external: true, variant: 'solid' },
+    right: { label: 'WhatsApp — বাংলাদেশ', href: waLink('হ্যালো Arnab — আমি একটা ডিসকভারি কল বুক করতে চাই।'), external: true, variant: 'solid' },
   },
   footer: {
     tagline: 'নির্ভরযোগ্যতার জন্য তৈরি AI অটোমেশন আর কাস্টম ওয়েব ইঞ্জিনিয়ারিং।',

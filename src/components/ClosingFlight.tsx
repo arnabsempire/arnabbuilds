@@ -10,7 +10,7 @@ const FLIGHT_MS = 3300;
 
 const SOLID =
   'bg-brand text-white hover:bg-brand-deep hover:shadow-[0_10px_22px_rgba(4,120,87,.28)]';
-const GHOST = 'bg-white text-brand hover:bg-hue-emerald-tint';
+const GHOST = 'bg-b-surface text-b-accent hover:bg-b-accent-soft';
 
 /**
  * The closing section is one continuous flight: the plane crosses each of the
@@ -58,10 +58,10 @@ export default function ClosingFlight({ market }: { market: Market }) {
     </span>
   );
 
-  const skin = (a: Action) => (a.variant === 'solid' ? SOLID : `border-[1.5px] border-brand-tint ${GHOST}`);
+  const skin = (a: Action) => (a.variant === 'solid' ? SOLID : `border-[1.5px] border-b-line ${GHOST}`);
 
   return (
-    <section className="border-t border-brand-tint bg-hue-emerald-tint/60 py-14 @[720px]/page:py-20">
+    <section className="border-t border-b-line bg-b-accent-soft/60 py-14 @[720px]/page:py-20">
       <div className="mx-auto w-full max-w-[1312px] px-5 @[720px]/page:px-8 @[1120px]/page:px-14">
         <div className="relative text-center" onMouseEnter={takeOff}>
           <h2 className="mx-auto mb-4 max-w-[700px] text-h2">
@@ -78,13 +78,13 @@ export default function ClosingFlight({ market }: { market: Market }) {
             </span>
           </h2>
 
-          <p className="mx-auto mb-2.5 max-w-[560px] text-lead text-ink-soft">{t.sub}</p>
+          <p className="mx-auto mb-2.5 max-w-[560px] text-lead text-b-ink-soft">{t.sub}</p>
 
           <p className="mb-6">
             <button
               type="button"
               onClick={takeOff}
-              className="inline-flex min-h-11 items-center gap-2 px-1 font-bold text-brand transition-colors duration-200 ease-fade hover:text-brand-deep"
+              className="inline-flex min-h-11 items-center gap-2 px-1 font-bold text-b-accent transition-colors duration-200 ease-fade hover:text-b-accent-deep"
             >
               <Plane size={17} aria-hidden="true" />
               {t.takeOff}
@@ -130,7 +130,7 @@ export default function ClosingFlight({ market }: { market: Market }) {
           {flying && (
             <div
               aria-hidden="true"
-              className="cl-plane pointer-events-none absolute left-0 top-0 z-[3] -ml-[22px] -mt-[22px] h-11 w-11 text-brand"
+              className="cl-plane pointer-events-none absolute left-0 top-0 z-[3] -ml-[22px] -mt-[22px] h-11 w-11 text-b-accent"
             >
               <PlaneIcon />
             </div>

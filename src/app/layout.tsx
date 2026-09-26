@@ -20,6 +20,20 @@ const manrope = localFont({
 });
 
 /*
+ * Fraunces carries the display voice. The `wght` subset is used rather than the
+ * `opsz` one: optical size is never varied at runtime, so paying 67KB for that
+ * axis buys nothing, and 36KB keeps the 3-second-on-3G target intact. It is
+ * self-hosted for the same three reasons as Manrope above.
+ */
+const fraunces = localFont({
+  src: './fonts/fraunces-latin-wght-variable.woff2',
+  display: 'swap',
+  variable: '--font-fraunces',
+  weight: '400 700',
+  preload: true,
+});
+
+/*
  * Manrope carries no Bengali glyphs, so the Bangladesh page would otherwise
  * fall back to whatever the visitor's device happens to ship — which on older
  * Android renders conjuncts badly or not at all. Noto Sans Bengali is declared
@@ -63,14 +77,16 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#F9F9F9',
+  /* The first band is dark now, so the browser chrome should match it rather
+     than flashing paper above a near-black hero. */
+  themeColor: '#0A0612',
   width: 'device-width',
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${manrope.variable} ${bengali.variable}`}>
+    <html lang="en" className={`${manrope.variable} ${fraunces.variable} ${bengali.variable}`}>
       <body>
         <script
           type="application/ld+json"

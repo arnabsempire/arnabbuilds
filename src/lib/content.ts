@@ -12,44 +12,39 @@ export type Pillar = {
   title: string;
   copy: string;
   /** Shown only where the market lists pricing. */
-  price: string;
   span: 'wide' | 'single' | 'full';
   bn: { copy: string };
 };
 
 export const PILLARS: Pillar[] = [
   {
-    hue: 'emerald', icon: 'zap', span: 'wide',
+    hue: 'violet', icon: 'zap', span: 'wide',
     title: 'AI Agents & Workflow Automation',
     copy: 'WhatsApp booking bots, n8n qualifier workflows, lead scoring and auto-publishing pipelines, wired into the tools you already run.',
-    price: 'From ৳25,000 build + ৳8,000/month',
     bn: {
       copy: 'WhatsApp বুকিং বট, n8n কোয়ালিফায়ার ওয়ার্কফ্লো, লিড স্কোরিং আর অটো-পাবলিশিং পাইপলাইন — আপনি এখন যে টুলগুলো চালান, তার সঙ্গেই যুক্ত।',
     },
   },
   {
-    hue: 'azure', icon: 'globe', span: 'single',
+    hue: 'amber', icon: 'globe', span: 'single',
     title: 'Conversion Websites',
     copy: 'Fast, mobile-first business sites and booking engines on Next.js and Tailwind, built to load in under three seconds on 3G.',
-    price: '৳18,000 – ৳65,000',
     bn: {
       copy: 'Next.js আর Tailwind-এ দ্রুত, মোবাইল-ফার্স্ট বিজনেস সাইট ও বুকিং ইঞ্জিন — 3G-তে তিন সেকেন্ডের কমে লোড হওয়ার জন্য তৈরি।',
     },
   },
   {
-    hue: 'rose', icon: 'share', span: 'wide',
+    hue: 'coral', icon: 'share', span: 'wide',
     title: 'Social Media Automation',
     copy: 'Captions written in your brand voice, graphics generated on brand, and a full month of posts scheduled across Facebook, Instagram and LinkedIn — so the feed never goes quiet.',
-    price: 'From ৳25,000 build + ৳8,000/month',
     bn: {
       copy: 'আপনার ব্র্যান্ডের ভয়েসে ক্যাপশন, ব্র্যান্ড মেনে গ্রাফিক, আর Facebook, Instagram ও LinkedIn-এ পুরো এক মাসের পোস্ট শিডিউল করা — ফিড কখনও চুপ থাকে না।',
     },
   },
   {
-    hue: 'violet', icon: 'layers', span: 'single',
+    hue: 'sky', icon: 'layers', span: 'single',
     title: 'Custom Web Apps & Internal Tools',
     copy: 'CRMs, inventory managers, project trackers and client portals on Supabase and PostgreSQL — built to survive real operational load.',
-    price: 'From ৳90,000',
     bn: {
       copy: 'Supabase আর PostgreSQL-এ CRM, ইনভেন্টরি ম্যানেজার, প্রজেক্ট ট্র্যাকার আর ক্লায়েন্ট পোর্টাল — বাস্তব অপারেশনাল চাপ সামলানোর জন্য তৈরি।',
     },
@@ -66,7 +61,7 @@ export type Step = {
 
 export const STEPS: Step[] = [
   {
-    hue: 'emerald', n: 1,
+    hue: 'violet', n: 1,
     title: 'Discovery Call',
     copy: 'A personal, non-transactional audit of where your business actually loses time and money.',
     bn: {
@@ -75,7 +70,7 @@ export const STEPS: Step[] = [
     },
   },
   {
-    hue: 'cyan', n: 2,
+    hue: 'indigo', n: 2,
     title: 'Strategy & Proposal',
     copy: 'Collaborative scoping, then one fixed-price quote. No hourly surprises.',
     bn: {
@@ -84,7 +79,7 @@ export const STEPS: Step[] = [
     },
   },
   {
-    hue: 'amber', n: 3,
+    hue: 'sodium', n: 3,
     title: 'Build & Iterate',
     copy: 'Agile weekly staging previews. You see progress every single week.',
     bn: {
@@ -93,7 +88,7 @@ export const STEPS: Step[] = [
     },
   },
   {
-    hue: 'rose', n: 4,
+    hue: 'coral', n: 4,
     title: 'Launch & Support',
     copy: 'Deployment, documentation and ongoing maintenance included.',
     bn: {
@@ -127,7 +122,7 @@ export type CaseStudy = {
 
 export const CASES: CaseStudy[] = [
   {
-    slug: 'resort-booking', hue: 'emerald', kind: 'Demonstration build', icon: 'building',
+    slug: 'resort-booking', hue: 'violet', kind: 'Demonstration build', icon: 'building',
     title: 'Boutique Resort Booking System',
     challenge: 'Rooms were sold over the phone into a paper ledger, so double bookings were routine and nobody could see real availability.',
     stack: 'Next.js, Supabase, transactional email',
@@ -149,7 +144,7 @@ export const CASES: CaseStudy[] = [
     },
   },
   {
-    slug: 'ecommerce-automation', hue: 'azure', kind: 'Demonstration build', icon: 'package',
+    slug: 'ecommerce-automation', hue: 'amber', kind: 'Demonstration build', icon: 'package',
     title: 'E-Commerce + Automation',
     challenge: 'Stock counts drifted between the shop floor and the online store, and order updates were sent by hand.',
     stack: 'Next.js, Supabase, n8n',
@@ -171,7 +166,7 @@ export const CASES: CaseStudy[] = [
     },
   },
   {
-    slug: 'lead-scoring', hue: 'amber', kind: 'Demonstration build', icon: 'target',
+    slug: 'lead-scoring', hue: 'sodium', kind: 'Demonstration build', icon: 'target',
     title: 'Lead Scoring Agent',
     challenge: 'Enquiries arrived across three channels and were triaged by hand, so the best leads were answered last.',
     stack: 'n8n, OpenAI, CRM webhook',
@@ -193,7 +188,7 @@ export const CASES: CaseStudy[] = [
     },
   },
   {
-    slug: 'retail-dashboard', hue: 'violet', kind: 'Demonstration build', icon: 'chart',
+    slug: 'retail-dashboard', hue: 'sky', kind: 'Demonstration build', icon: 'chart',
     title: 'Retail Operations Dashboard',
     challenge: 'Branch figures only met once a month, in a spreadsheet, long after anything could be done about them.',
     stack: 'Next.js, PostgreSQL, scheduled ETL',
@@ -215,7 +210,7 @@ export const CASES: CaseStudy[] = [
     },
   },
   {
-    slug: 'whatsapp-bot', hue: 'rose', kind: 'Demonstration build', icon: 'chat',
+    slug: 'whatsapp-bot', hue: 'coral', kind: 'Demonstration build', icon: 'chat',
     title: 'WhatsApp Booking Bot',
     challenge: 'Customers wanted to book on WhatsApp, but every message needed a human to read it and check the diary.',
     stack: 'WhatsApp Business API, n8n, Supabase',
@@ -237,7 +232,7 @@ export const CASES: CaseStudy[] = [
     },
   },
   {
-    slug: 'crm-pipeline', hue: 'cyan', kind: 'Demonstration build', icon: 'kanban',
+    slug: 'crm-pipeline', hue: 'indigo', kind: 'Demonstration build', icon: 'kanban',
     title: 'CRM & Pipeline Tool',
     challenge: 'A small sales team had outgrown a shared spreadsheet and kept losing follow-ups between stages.',
     stack: 'React, Supabase, Row Level Security',
@@ -307,7 +302,7 @@ export type Walkthrough = {
 export const WALKTHROUGHS: Walkthrough[] = [
   {
     slug: 'postpilot',
-    hue: 'rose',
+    hue: 'coral',
     href: '/demos/postpilot.html',
     title: 'PostPilot',
     tagline: 'Writes captions in your brand voice, designs the graphic and publishes on schedule.',
@@ -318,7 +313,7 @@ export const WALKTHROUGHS: Walkthrough[] = [
   },
   {
     slug: 'postpilot-genz',
-    hue: 'violet',
+    hue: 'sky',
     href: '/demos/postpilot-genz.html',
     title: 'PostPilot — Gen-Z cut',
     tagline: 'The same product, pitched to a younger audience. Same engine, different voice.',
@@ -329,7 +324,7 @@ export const WALKTHROUGHS: Walkthrough[] = [
   },
   {
     slug: 'launchdesk',
-    hue: 'cyan',
+    hue: 'indigo',
     href: '/demos/launchdesk.html',
     title: 'LaunchDesk',
     tagline: 'Business setup and automation packaged as a done-for-you service.',

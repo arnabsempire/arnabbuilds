@@ -3,13 +3,13 @@
 import { useState } from 'react';
 import { Check, Loader2, Send } from 'lucide-react';
 import { COPY } from '@/lib/copy';
-import { SITE, type Market } from '@/lib/site';
+import { SITE, waLink, type Market } from '@/lib/site';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 
 const field =
-  'w-full rounded-lg border border-line bg-white px-4 py-3 text-base text-ink outline-none transition-colors duration-200 ease-fade placeholder:text-ink-muted focus-visible:border-brand focus-visible:ring-[3px] focus-visible:ring-brand-tint';
-const label = 'mb-1.5 block text-[13px] font-bold text-ink-soft';
+  'w-full rounded-lg border border-b-line bg-b-surface px-4 py-3 text-base text-b-ink outline-none transition-colors duration-200 ease-fade placeholder:text-b-ink-muted focus-visible:border-b-accent focus-visible:ring-[3px] focus-visible:ring-b-accent';
+const label = 'mb-1.5 block text-[13px] font-bold text-b-ink-soft';
 
 /**
  * Posts to /__forms.html, where the form is declared for Netlify's build-time
@@ -43,19 +43,19 @@ export default function ContactForm({ market }: { market: Market }) {
   }
 
   return (
-    <section id="contact" className="border-b border-line py-14 @[720px]/page:py-[76px] @[1120px]/page:py-[104px]">
+    <section id="contact" className="border-b border-b-line py-14 @[720px]/page:py-[76px] @[1120px]/page:py-[104px]">
       <div className="mx-auto w-full max-w-[1312px] px-5 @[720px]/page:px-8 @[1120px]/page:px-14">
         <div className="grid grid-cols-1 gap-9 @[1120px]/page:grid-cols-[0.9fr_1.1fr] @[1120px]/page:gap-16">
           <div className="reveal">
             <h2 className="mb-3 text-h2">{t.h2}</h2>
-            <p className="mb-6 text-lead text-ink-soft">{t.lead}</p>
-            <p className="text-[15px] leading-[1.65] text-ink-muted">
+            <p className="mb-6 text-lead text-b-ink-soft">{t.lead}</p>
+            <p className="text-[15px] leading-[1.65] text-b-ink-muted">
               {t.alt}{' '}
-              <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer" className="font-bold text-brand hover:text-brand-deep">
+              <a href={waLink(COPY[market].wa.contact)} target="_blank" rel="noopener noreferrer" className="font-bold text-b-accent hover:text-b-accent-deep">
                 WhatsApp
               </a>{' '}
               {t.or}{' '}
-              <a href={`mailto:${SITE.email}`} className="font-bold text-brand hover:text-brand-deep">
+              <a href={`mailto:${SITE.email}`} className="font-bold text-b-accent hover:text-b-accent-deep">
                 {SITE.email}
               </a>
               .
@@ -65,13 +65,13 @@ export default function ContactForm({ market }: { market: Market }) {
           {status === 'sent' ? (
             <div
               role="status"
-              className="flex flex-col items-start gap-3 self-start rounded-[14px] border border-brand-tint bg-hue-emerald-tint p-7"
+              className="flex flex-col items-start gap-3 self-start rounded-[14px] border border-b-line bg-b-accent-soft p-7"
             >
               <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brand text-white">
                 <Check size={22} aria-hidden="true" />
               </span>
               <h3 className="text-h3">{t.sentTitle}</h3>
-              <p className="text-[15px] leading-[1.65] text-ink-muted">{t.sentBody}</p>
+              <p className="text-[15px] leading-[1.65] text-b-ink-muted">{t.sentBody}</p>
             </div>
           ) : (
             <form
@@ -113,7 +113,7 @@ export default function ContactForm({ market }: { market: Market }) {
               {status === 'error' && (
                 <p role="alert" className="text-[14px] font-semibold text-hue-rose-ink">
                   {t.error}{' '}
-                  <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer" className="underline">
+                  <a href={waLink(COPY[market].wa.contact)} target="_blank" rel="noopener noreferrer" className="underline">
                     WhatsApp
                   </a>
                   .
@@ -133,7 +133,7 @@ export default function ContactForm({ market }: { market: Market }) {
                 {status === 'sending' ? t.sending : t.submit}
               </button>
 
-              <p className="text-[13px] leading-[1.5] text-ink-muted">{t.privacy}</p>
+              <p className="text-[13px] leading-[1.5] text-b-ink-muted">{t.privacy}</p>
             </form>
           )}
         </div>

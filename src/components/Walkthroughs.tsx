@@ -14,11 +14,11 @@ export default function Walkthroughs({ market }: { market: Market }) {
   const items = walkthroughsFor(market);
 
   return (
-    <section id="demos" className="border-b border-line py-14 @[720px]/page:py-[76px] @[1120px]/page:py-[104px]">
+    <section id="demos" className="border-b border-b-line py-14 @[720px]/page:py-[76px] @[1120px]/page:py-[104px]">
       <div className="mx-auto w-full max-w-[1312px] px-5 @[720px]/page:px-8 @[1120px]/page:px-14">
         <div className="reveal mb-8 max-w-[640px] @[720px]/page:mb-11 @[1120px]/page:mb-[60px]">
           <h2 className="mb-3 text-h2">{t.h2}</h2>
-          <p className="text-lead text-ink-soft">{t.lead}</p>
+          <p className="text-lead text-b-ink-soft">{t.lead}</p>
         </div>
 
         <div className="grid grid-cols-1 gap-[18px] @[720px]/page:grid-cols-3 @[720px]/page:gap-[22px] @[1120px]/page:gap-[26px]">
@@ -30,7 +30,7 @@ export default function Walkthroughs({ market }: { market: Market }) {
                 href={w.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`reveal group flex flex-col overflow-hidden rounded-[14px] border border-line bg-white transition-all duration-[260ms] ease-move hover:-translate-y-1.5 hover:shadow-[0_20px_44px_-10px_rgba(4,120,87,.32)] ${hue.ring}`}
+                className={`reveal group flex flex-col overflow-hidden rounded-[14px] border border-b-line bg-b-surface transition-all duration-[260ms] ease-move hover:-translate-y-1.5 hover:shadow-[0_20px_44px_-10px_rgba(4,120,87,.32)] ${hue.ring}`}
               >
                 <div className={`flex h-[104px] items-end justify-between p-[18px] text-white @[1120px]/page:h-[120px] ${hue.solid}`}>
                   <span className="font-display text-[19px] font-bold">{w.title}</span>
@@ -42,18 +42,18 @@ export default function Walkthroughs({ market }: { market: Market }) {
                 </div>
 
                 <div className="flex flex-1 flex-col gap-3.5 p-[22px]">
-                  <p className="text-[15px] leading-[1.65] text-ink-muted">{w.tagline}</p>
+                  <p className="text-[15px] leading-[1.65] text-b-ink-muted">{w.tagline}</p>
                   <ul className="mt-auto flex list-none flex-wrap gap-1.5 p-0">
                     {w.tags.map((tag) => (
                       <li
                         key={tag}
-                        className={`rounded-full px-[11px] py-[5px] text-[12px] font-bold ${hue.tint} ${hue.ink}`}
+                        className={`rounded-full px-[11px] py-[5px] text-[12px] font-bold ${hue.chip}`}
                       >
                         {tag}
                       </li>
                     ))}
                   </ul>
-                  <span className={`inline-flex items-center gap-1.5 text-[14px] font-bold ${hue.ink}`}>
+                  <span className={`inline-flex items-center gap-1.5 text-[14px] font-bold ${hue.text}`}>
                     {t.open}
                   </span>
                 </div>
@@ -62,7 +62,7 @@ export default function Walkthroughs({ market }: { market: Market }) {
           })}
         </div>
 
-        <p className="mt-6 text-[13px] leading-[1.5] text-ink-muted">{t.note}</p>
+        <p className="mt-6 text-[13px] leading-[1.5] text-b-ink-muted">{t.note}</p>
       </div>
     </section>
   );
