@@ -1,30 +1,25 @@
 # Netlify build configuration for arnabbuilds.com
 #
-# The Next.js adapter is declared here rather than left to auto-detection.
-# Auto-install is per-project, not per-repo: the preview project picked the
-# adapter up through the Netlify UI, but the production project did not, and
-# its first build published the raw .next directory with no server handler —
-# "No functions deployed" — which breaks routing on every path.
+# Kept deliberately, even though the site now deploys to Cloudflare: the build
+# is a static export, so the same repo publishes correctly on either host and
+# moving back is a DNS change rather than a rewrite.
 #
-# The version is deliberately unpinned. Netlify's own guidance is not to pin
-# it: they maintain the adapter across Next.js versions and resolve the latest
-# compatible one on each build. Declaring the package without a version gets
-# both — guaranteed presence, automatic updates.
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+# @netlify/plugin-nextjs is NOT declared any more, and must not be re-added.
+# The adapter exists to deploy a Next.js *server* to Netlify Functions. This
+# build has no server — `output: 'export'` in next.config.mjs emits a finished
+# `out/` directory — so the adapter would wrap static files in a function that
+# does nothing, and bill compute for it.
 
 [build]
   command = "npm run build"
-  publish = ".next"
+  publish = "out"
 
 [build.environment]
   # Next.js 16 requires Node 20.9+. Pinned so CI matches local.
   NODE_VERSION = "22"
 
-# Security headers are set here rather than in next.config.mjs so there is one
-# source of truth, applied by Netlify's CDN to every asset including static
-# files that never touch the Next.js server.
+# These mirror public/_headers, which is what Cloudflare reads. Netlify ignores
+# _headers when a netlify.toml is present, so both files have to carry the rules.
 [[headers]]
   for = "/*"
   [headers.values]

@@ -60,26 +60,23 @@ export type Copy = {
     close: string;
   };
   walkthroughs: { h2: string; lead: string; open: string; note: string };
+  /**
+   * Three ways in, no form. The site is a static export with no server to
+   * receive a POST, and a form that accepts a message and quietly drops it is
+   * worse than no form — so every route here is an ordinary link that either
+   * opens or visibly does not.
+   */
   contact: {
     h2: string;
     lead: string;
-    alt: string;
-    or: string;
-    nameLabel: string;
-    namePlaceholder: string;
-    emailLabel: string;
-    emailPlaceholder: string;
-    whatsappLabel: string;
-    whatsappPlaceholder: string;
-    messageLabel: string;
-    messagePlaceholder: string;
-    submit: string;
-    sending: string;
-    sentTitle: string;
-    sentBody: string;
-    error: string;
-    privacy: string;
-    honeypot: string;
+    /** The response-time promise, stated once rather than per route. */
+    reply: string;
+    waTitle: string;
+    waBody: string;
+    callTitle: string;
+    callBody: string;
+    mailTitle: string;
+    mailBody: string;
   };
   closing: {
     /** Words the plane flies over, in order, with the text around them. */
@@ -199,23 +196,13 @@ const intl: Copy = {
   contact: {
     h2: "Tell me what's eating your week",
     lead: 'Describe the task you keep repeating. I will tell you whether it is worth automating, and roughly what it would take.',
-    alt: 'Prefer something faster? Message me on',
-    or: 'or email',
-    nameLabel: 'Your name',
-    namePlaceholder: 'How should I address you?',
-    emailLabel: 'Email',
-    emailPlaceholder: 'you@company.com',
-    whatsappLabel: 'WhatsApp number (optional)',
-    whatsappPlaceholder: '+880 1XXX XXXXXX',
-    messageLabel: "What's eating your week?",
-    messagePlaceholder: 'Every booking comes in by phone and someone has to write it into a diary...',
-    submit: 'Send it over',
-    sending: 'Sending',
-    sentTitle: 'Got it.',
-    sentBody: 'I read every one of these myself. Expect a reply within one working day — sooner if you left a WhatsApp number.',
-    error: 'That did not send. Try again, or message me on',
-    privacy: 'Your details go to me and nowhere else. No list, no newsletter.',
-    honeypot: 'Leave this field empty',
+    reply: 'Every message comes to me directly — no form, no inbox rules, no list you get added to. Expect a reply within one working day.',
+    waTitle: 'WhatsApp',
+    waBody: 'The fastest route, and the first message is already written. Open it, add a line about your business, send.',
+    callTitle: 'Book a discovery call',
+    callBody: 'Thirty minutes on a shared screen. You describe the work; I tell you what it would take and whether it is worth doing.',
+    mailTitle: 'Email',
+    mailBody: 'Best when there are attachments, a brief to forward, or a longer story than a chat window suits.',
   },
   closing: {
     lead: 'Ready to',
@@ -336,23 +323,13 @@ const bd: Copy = {
   contact: {
     h2: 'আপনার সপ্তাহটা কোথায় চলে যাচ্ছে?',
     lead: 'যে কাজটা বারবার করতে হয়, সেটা লিখুন। অটোমেট করা যায় কি না, আর করলে মোটামুটি কী লাগবে — জানিয়ে দেব।',
-    alt: 'আরও দ্রুত চাইলে মেসেজ করুন',
-    or: 'অথবা ইমেইল',
-    nameLabel: 'আপনার নাম',
-    namePlaceholder: 'নাম লিখুন',
-    emailLabel: 'ইমেইল',
-    emailPlaceholder: 'you@company.com',
-    whatsappLabel: 'WhatsApp নম্বর (ঐচ্ছিক)',
-    whatsappPlaceholder: '+880 1XXX XXXXXX',
-    messageLabel: 'কোন কাজটা সময় খেয়ে ফেলছে?',
-    messagePlaceholder: 'প্রতিটা বুকিং ফোনে আসে, আর কাউকে সেটা খাতায় লিখে রাখতে হয়...',
-    submit: 'পাঠিয়ে দিন',
-    sending: 'পাঠানো হচ্ছে',
-    sentTitle: 'পেয়েছি।',
-    sentBody: 'প্রতিটি মেসেজ আমি নিজে পড়ি। এক কর্মদিবসের মধ্যেই উত্তর পাবেন — WhatsApp নম্বর দিলে আরও আগে।',
-    error: 'পাঠানো যায়নি। আবার চেষ্টা করুন, অথবা মেসেজ করুন',
-    privacy: 'আপনার তথ্য শুধু আমার কাছেই আসে, আর কোথাও নয়। কোনো লিস্ট নেই, নিউজলেটার নেই।',
-    honeypot: 'এই ঘরটি খালি রাখুন',
+    reply: 'প্রতিটি মেসেজ সরাসরি আমার কাছেই আসে — কোনো ফর্ম নেই, কোনো লিস্টে আপনার নাম যাবে না। এক কর্মদিবসের মধ্যেই উত্তর পাবেন।',
+    waTitle: 'WhatsApp',
+    waBody: 'সবচেয়ে দ্রুত উপায়, আর প্রথম মেসেজটা আগেই লেখা আছে। খুলুন, ব্যবসার কথা এক লাইনে যোগ করুন, পাঠিয়ে দিন।',
+    callTitle: 'ডিসকভারি কল বুক করুন',
+    callBody: 'স্ক্রিন শেয়ার করে ত্রিশ মিনিট। আপনি কাজটা বলবেন; আমি বলব কী লাগবে আর করাটা আদৌ দরকার কি না।',
+    mailTitle: 'ইমেইল',
+    mailBody: 'ফাইল অ্যাটাচ করতে হলে, ব্রিফ ফরওয়ার্ড করতে হলে, বা চ্যাটে যা লেখা যায় না — তার জন্য সবচেয়ে ভালো।',
   },
   closing: {
     /* Bengali puts the verb last, so the three words come first and the
