@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Six demos — visual directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;500;600&family=DM+Sans:wght@400;500;700&family=Archivo+Black&family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700;800&family=Space+Grotesque:wght@400;700&family=Outfit:wght@300;400;600;800&family=Fraunces:opsz,wght@9..144,400..700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0B0B0F;color:#EDEBF2;font-family:'Inter',system-ui,sans-serif;line-height:1.55;padding:28px 18px 70px}
+  .page{max-width:1180px;margin:0 auto}
+  h1{font-size:clamp(1.5rem,3.6vw,2.1rem);font-weight:800;letter-spacing:-.02em}
+  .sub{color:#9B94AD;margin-top:8px;max-width:64ch;font-size:.95rem}
+  .rule{height:1px;background:#242430;margin:24px 0 26px}
+
+  .grid{display:grid;gap:20px;grid-template-columns:1fr}
+  @media(min-width:720px){.grid{grid-template-columns:1fr 1fr}}
+  @media(min-width:1080px){.grid{grid-template-columns:1fr 1fr 1fr}}
+
+  .card{border:1px solid #242430;border-radius:16px;overflow:hidden;background:#131319;display:flex;flex-direction:column}
+  .card.yes{border-color:#3DD68C;box-shadow:0 0 0 1px #3DD68C}
+  .card.no{opacity:.4}
+  .shot{height:260px;overflow:hidden;position:relative;border-bottom:1px solid #242430}
+  .meta{padding:15px 16px 16px}
+  .meta .n{font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#6F6880}
+  .meta h2{font-size:1rem;font-weight:800;margin:4px 0 6px}
+  .meta .feel{font-size:.85rem;color:#9B94AD}
+  .meta .feel b{color:#C9C3D8;font-weight:700}
+  .sw{display:flex;gap:5px;margin-top:11px}
+  .sw i{width:20px;height:20px;border-radius:5px;display:block;border:1px solid rgba(255,255,255,.12)}
+  .type{margin-top:9px;font-size:.72rem;color:#6F6880;letter-spacing:.02em}
+  .vote{display:flex;gap:7px;padding:0 16px 16px}
+  .vote button{flex:1;min-height:38px;border-radius:9px;border:1px solid #2C2C3A;background:#1A1A22;color:#9B94AD;font:inherit;font-size:.8rem;font-weight:700;cursor:pointer}
+  .vote button:hover{border-color:#4A4A5E;color:#EDEBF2}
+  .card.yes .vote .y{background:#3DD68C;border-color:#3DD68C;color:#07130D}
+  .card.no .vote .n2{background:#F26D78;border-color:#F26D78;color:#180708}
+
+  .out{margin-top:30px;border:1px solid #242430;border-radius:14px;background:#131319;padding:18px}
+  .out h3{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6F6880;font-weight:800;margin-bottom:10px}
+  .out pre{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:.82rem;color:#C9C3D8;white-space:pre-wrap;line-height:1.7}
+  .copy{margin-top:12px;min-height:42px;padding:0 18px;border-radius:9px;border:0;background:#8B7BF7;color:#0B0B0F;font:inherit;font-weight:800;cursor:pointer}
+
+  /* ================= MINIATURES ================= */
+  .mini{position:absolute;inset:0;transform-origin:top left}
+
+  /* 1 — HOSPITALITY: cream, editorial serif, photographic calm */
+  .m1{background:#F4EDE3;color:#2B2119;font-family:'Cormorant Garamond',Georgia,serif;padding:20px 18px}
+  .m1 .nav{display:flex;justify-content:space-between;align-items:center;font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:#8A7259;font-family:'DM Sans',sans-serif;font-weight:500}
+  .m1 h3{font-size:30px;font-weight:300;line-height:1.05;margin:20px 0 6px;letter-spacing:-.01em}
+  .m1 h3 em{font-style:italic;color:#A9683C}
+  .m1 .p{font-size:9px;color:#6E5B49;font-family:'DM Sans',sans-serif;max-width:74%;line-height:1.6}
+  .m1 .band{display:flex;gap:5px;margin-top:16px}
+  .m1 .band i{flex:1;height:58px;border-radius:2px;display:block}
+  .m1 .bk{margin-top:14px;background:#FFF;border:1px solid #E0D3C2;border-radius:3px;padding:8px 9px;display:flex;justify-content:space-between;align-items:center;font-family:'DM Sans',sans-serif}
+  .m1 .bk span{font-size:7.5px;color:#8A7259;letter-spacing:.06em}
+  .m1 .bk b{font-size:7.5px;background:#A9683C;color:#FFF;padding:4px 9px;border-radius:2px}
+
+  /* 2 — RETAIL: loud, high-contrast, poster typography */
+  .m2{background:#FFE14D;color:#100D08;font-family:'Archivo Black',Impact,sans-serif;padding:16px}
+  .m2 .top{display:flex;justify-content:space-between;font-size:8px;letter-spacing:.06em}
+  .m2 h3{font-size:34px;line-height:.9;margin:12px 0 8px;letter-spacing:-.03em;text-transform:uppercase}
+  .m2 .strip{background:#100D08;color:#FFE14D;font-size:7px;letter-spacing:.3em;padding:5px 8px;margin:0 -16px;text-transform:uppercase}
+  .m2 .prods{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:12px}
+  .m2 .prods div{background:#100D08;border-radius:4px;height:58px;position:relative;overflow:hidden}
+  .m2 .prods div::after{content:'';position:absolute;left:8px;right:8px;top:8px;height:28px;border-radius:3px;background:#FF5C35}
+  .m2 .prods div:nth-child(2)::after{background:#3DD68C}
+  .m2 .prods div:nth-child(3)::after{background:#6AA9FF}
+  .m2 .prods b{position:absolute;bottom:6px;left:8px;font-size:7px;color:#FFE14D}
+  .m2 .bar{margin-top:10px;background:#FF5C35;color:#FFF;font-size:8px;padding:7px;text-align:center;border-radius:4px;letter-spacing:.06em}
+
+  /* 3 — SaaS ANALYTICS: cool light, dense, precise */
+  .m3{background:#F7F8FB;color:#141824;font-family:'Inter',sans-serif;padding:0;display:flex}
+  .m3 .side{width:52px;background:#FFF;border-right:1px solid #E4E7EF;padding:12px 8px;display:flex;flex-direction:column;gap:7px}
+  .m3 .side i{height:7px;border-radius:2px;background:#E4E7EF;display:block}
+  .m3 .side i.on{background:#3B5BFD}
+  .m3 .main{flex:1;padding:13px}
+  .m3 .hd{display:flex;justify-content:space-between;align-items:center}
+  .m3 .hd h3{font-size:12px;font-weight:700;letter-spacing:-.01em}
+  .m3 .hd span{font-size:7px;background:#3B5BFD;color:#FFF;padding:3px 7px;border-radius:3px;font-weight:600}
+  .m3 .kpis{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:10px}
+  .m3 .kpi{background:#FFF;border:1px solid #E4E7EF;border-radius:5px;padding:7px}
+  .m3 .kpi u{display:block;font-size:6px;color:#77809B;text-decoration:none;letter-spacing:.06em}
+  .m3 .kpi b{font-size:14px;font-weight:700;letter-spacing:-.02em}
+  .m3 .kpi b small{font-size:6px;color:#12A56A;margin-left:3px;font-weight:600}
+  .m3 .rows{margin-top:8px;background:#FFF;border:1px solid #E4E7EF;border-radius:5px;overflow:hidden}
+  .m3 .r{display:flex;align-items:center;gap:6px;padding:6px 8px;border-bottom:1px solid #EFF1F6;font-size:7px;color:#4A5268}
+  .m3 .r:last-child{border:0}
+  .m3 .r .dot{width:5px;height:5px;border-radius:50%;background:#3B5BFD;flex-shrink:0}
+  .m3 .r .score{margin-left:auto;font-weight:700;color:#141824}
+  .m3 .r .bar{width:34px;height:4px;border-radius:2px;background:#E4E7EF;overflow:hidden}
+  .m3 .r .bar i{display:block;height:100%;background:#3B5BFD}
+
+  /* 4 — OPS CONSOLE: dark, monospace numerals, live feel */
+  .m4{background:#080B10;color:#CFE3DA;font-family:'IBM Plex Mono',monospace;padding:14px}
+  .m4 .hd{display:flex;justify-content:space-between;align-items:center;font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:#4D7A67}
+  .m4 .hd b{color:#00E08A}
+  .m4 .big{display:flex;align-items:baseline;gap:8px;margin-top:12px}
+  .m4 .big b{font-size:32px;font-weight:600;color:#00E08A;letter-spacing:-.02em}
+  .m4 .big u{text-decoration:none;font-size:8px;color:#4D7A67}
+  .m4 .chart{height:52px;margin-top:10px;display:flex;align-items:flex-end;gap:3px}
+  .m4 .chart i{flex:1;background:linear-gradient(to top,#00E08A,#0B6E4A);border-radius:1px 1px 0 0;display:block}
+  .m4 .cells{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:11px}
+  .m4 .c{border:1px solid #16241D;border-radius:4px;padding:7px;background:#0C1117}
+  .m4 .c u{display:block;font-size:6px;color:#4D7A67;text-decoration:none;letter-spacing:.1em}
+  .m4 .c b{font-size:13px;color:#CFE3DA;font-weight:600}
+  .m4 .c b.warn{color:#FFB020}
+  .m4 .tick{margin-top:9px;font-size:6.5px;color:#4D7A67;letter-spacing:.06em}
+
+  /* 5 — CHAT: phone frame, WhatsApp green, conversational */
+  .m5{background:linear-gradient(160deg,#0E4A3C,#0A2E26);padding:14px;display:flex;justify-content:center;font-family:'DM Sans',sans-serif}
+  .m5 .phone{width:142px;background:#ECE5DD;border-radius:14px;overflow:hidden;border:3px solid #061C17;display:flex;flex-direction:column}
+  .m5 .top{background:#075E54;color:#fff;padding:6px 8px;display:flex;align-items:center;gap:5px}
+  .m5 .top .av{width:15px;height:15px;border-radius:50%;background:#25D366}
+  .m5 .top b{font-size:7px}
+  .m5 .top u{font-size:5.5px;text-decoration:none;color:#9FD8CE;display:block}
+  .m5 .body{padding:7px;display:flex;flex-direction:column;gap:5px;flex:1}
+  .m5 .b{max-width:82%;padding:5px 7px;border-radius:7px;font-size:6.5px;line-height:1.45;color:#0C1C18}
+  .m5 .them{background:#fff;border-top-left-radius:2px;align-self:flex-start}
+  .m5 .me{background:#DCF8C6;border-top-right-radius:2px;align-self:flex-end}
+  .m5 .chips{display:flex;gap:3px;flex-wrap:wrap;align-self:flex-start}
+  .m5 .chips span{background:#fff;border:1px solid #25D366;color:#075E54;font-size:5.5px;padding:3px 6px;border-radius:9px;font-weight:700}
+  .m5 .inp{background:#fff;margin:5px;border-radius:9px;padding:4px 7px;font-size:6px;color:#9AA3A0}
+
+  /* 6 — CRM KANBAN: soft workspace, pastel, calm */
+  .m6{background:#FBFAFF;color:#221D33;font-family:'Outfit',sans-serif;padding:13px}
+  .m6 .hd{display:flex;justify-content:space-between;align-items:center}
+  .m6 .hd h3{font-size:12px;font-weight:800;letter-spacing:-.02em}
+  .m6 .hd .av{display:flex}
+  .m6 .hd .av i{width:13px;height:13px;border-radius:50%;border:2px solid #FBFAFF;margin-left:-4px;display:block}
+  .m6 .cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:11px}
+  .m6 .col{background:#F2F0FA;border-radius:7px;padding:6px}
+  .m6 .col>u{display:block;text-decoration:none;font-size:6px;font-weight:700;color:#6B6382;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
+  .m6 .t{background:#fff;border-radius:5px;padding:6px;margin-bottom:5px;box-shadow:0 1px 2px rgba(34,29,51,.07)}
+  .m6 .t i{display:block;height:3px;width:24px;border-radius:2px;margin-bottom:4px}
+  .m6 .t b{display:block;font-size:6.5px;font-weight:600;line-height:1.35}
+  .m6 .t u{display:block;text-decoration:none;font-size:5.5px;color:#8A82A3;margin-top:3px}
+  .m6 .t.drag{transform:rotate(-2.5deg);box-shadow:0 6px 14px rgba(34,29,51,.16)}
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Six demos, six visual languages</h1>
+  <p class="sub">Each one is meant to look like it came from a different client. Mark what works and what doesn't — that's the whole input I need before building.</p>
+  <div class="rule"></div>
+
+  <div class="grid" id="grid">
+
+    <!-- 1 -->
+    <article class="card" data-k="resort">
+      <div class="shot"><div class="mini m1">
+        <div class="nav"><span>Coral Bay</span><span>Rooms · Dining · Book</span></div>
+        <h3>Wake to the sound of <em>water</em></h3>
+        <p class="p">Fourteen rooms on a quiet stretch of coast. Rates include breakfast and the boat.</p>
+        <div class="band"><i style="background:#C2A78C"></i><i style="background:#8FA396"></i><i style="background:#A9683C"></i><i style="background:#6E5B49"></i></div>
+        <div class="bk"><span>2 GUESTS · 3 NIGHTS</span><b>Check dates</b></div>
+      </div></div>
+      <div class="meta">
+        <p class="n">01 · Resort booking</p>
+        <h2>Editorial hospitality</h2>
+        <p class="feel">Feels like <b>Aman / Six Senses</b>. Cream, generous whitespace, light serif, photography does the selling. Quiet and expensive.</p>
+        <div class="sw"><i style="background:#F4EDE3"></i><i style="background:#A9683C"></i><i style="background:#8FA396"></i><i style="background:#2B2119"></i></div>
+        <p class="type">Cormorant Garamond + DM Sans</p>
+      </div>
+      <div class="vote"><button class="y">Yes</button><button class="n2">No</button></div>
+    </article>
+
+    <!-- 2 -->
+    <article class="card" data-k="ecom">
+      <div class="shot"><div class="mini m2">
+        <div class="top"><span>SHOPFLOOR</span><span>CART (3)</span></div>
+        <h3>Stock that counts itself</h3>
+        <div class="strip">SYNCED · 14 SECONDS AGO · 482 SKUS</div>
+        <div class="prods"><div><b>৳1,250</b></div><div><b>৳890</b></div><div><b>৳2,400</b></div></div>
+        <div class="bar">ORDER → PACKED → SHIPPED, NO TYPING</div>
+      </div></div>
+      <div class="meta">
+        <p class="n">02 · E-commerce + automation</p>
+        <h2>Loud retail poster</h2>
+        <p class="feel">Feels like <b>Gymshark / Oatly</b>. Flat bold colour, fat display type, product grid front and centre. Built to be scrolled fast.</p>
+        <div class="sw"><i style="background:#FFE14D"></i><i style="background:#FF5C35"></i><i style="background:#100D08"></i><i style="background:#3DD68C"></i></div>
+        <p class="type">Archivo Black + DM Sans</p>
+      </div>
+      <div class="vote"><button class="y">Yes</button><button class="n2">No</button></div>
+    </article>
+
+    <!-- 3 -->
+    <article class="card" data-k="leads">
+      <div class="shot"><div class="mini m3">
+        <div class="side"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+        <div class="main">
+          <div class="hd"><h3>Lead scoring</h3><span>Live</span></div>
+          <div class="kpis">
+            <div class="kpi"><u>SCORED</u><b>1,284</b></div>
+            <div class="kpi"><u>QUALIFIED</u><b>216<small>+12%</small></b></div>
+            <div class="kpi"><u>AVG</u><b>67</b></div>
+          </div>
+          <div class="rows">
+            <div class="r"><span class="dot"></span>Giriraj Resort<span class="bar"><i style="width:92%"></i></span><span class="score">92</span></div>
+            <div class="r"><span class="dot"></span>Surf Club<span class="bar"><i style="width:78%"></i></span><span class="score">78</span></div>
+            <div class="r"><span class="dot"></span>Palm Riviera<span class="bar"><i style="width:64%"></i></span><span class="score">64</span></div>
+            <div class="r"><span class="dot"></span>Mountain Springs<span class="bar"><i style="width:41%"></i></span><span class="score">41</span></div>
+          </div>
+        </div>
+      </div></div>
+      <div class="meta">
+        <p class="n">03 · Lead scoring</p>
+        <h2>Precise SaaS tool</h2>
+        <p class="feel">Feels like <b>Linear / Vercel dashboard</b>. Cool light grey, tight Inter, dense rows, one accent blue. Reads as a real product.</p>
+        <div class="sw"><i style="background:#F7F8FB"></i><i style="background:#3B5BFD"></i><i style="background:#141824"></i><i style="background:#12A56A"></i></div>
+        <p class="type">Inter, tight tracking</p>
+      </div>
+      <div class="vote"><button class="y">Yes</button><button class="n2">No</button></div>
+    </article>
+
+    <!-- 4 -->
+    <article class="card" data-k="dash">
+      <div class="shot"><div class="mini m4">
+        <div class="hd"><span>RETAIL OPS / DHAKA</span><b>● LIVE</b></div>
+        <div class="big"><b>৳4.82L</b><u>TODAY / +18% VS LAST WED</u></div>
+        <div class="chart">
+          <i style="height:34%"></i><i style="height:52%"></i><i style="height:41%"></i><i style="height:68%"></i>
+          <i style="height:57%"></i><i style="height:82%"></i><i style="height:71%"></i><i style="height:94%"></i>
+          <i style="height:63%"></i><i style="height:78%"></i><i style="height:88%"></i><i style="height:100%"></i>
+        </div>
+        <div class="cells">
+          <div class="c"><u>BASKET</u><b>৳1,340</b></div>
+          <div class="c"><u>STOCKOUTS</u><b class="warn">7</b></div>
+        </div>
+        <p class="tick">14:02:11 — OUTLET 3 REORDER TRIGGERED</p>
+      </div></div>
+      <div class="meta">
+        <p class="n">04 · Retail dashboard</p>
+        <h2>Ops console</h2>
+        <p class="feel">Feels like <b>Bloomberg / Grafana</b>. Near-black, monospace numerals, phosphor green, a ticking log. Looks like it's running right now.</p>
+        <div class="sw"><i style="background:#080B10"></i><i style="background:#00E08A"></i><i style="background:#FFB020"></i><i style="background:#CFE3DA"></i></div>
+        <p class="type">IBM Plex Mono</p>
+      </div>
+      <div class="vote"><button class="y">Yes</button><button class="n2">No</button></div>
+    </article>
+
+    <!-- 5 -->
+    <article class="card" data-k="wa">
+      <div class="shot"><div class="mini m5">
+        <div class="phone">
+          <div class="top"><span class="av"></span><span><b>Coral Bay</b><u>online</u></span></div>
+          <div class="body">
+            <div class="b them">Hi! Rooms free this weekend?</div>
+            <div class="b me">Yes — 2 sea-facing left for Fri–Sun. ৳7,200/night.</div>
+            <div class="b them">Can you hold one?</div>
+            <div class="chips"><span>Hold it</span><span>See photos</span><span>Call me</span></div>
+            <div class="b me">Held for 30 min. Name for the booking?</div>
+          </div>
+          <div class="inp">Type a message…</div>
+        </div>
+      </div></div>
+      <div class="meta">
+        <p class="n">05 · WhatsApp booking bot</p>
+        <h2>Real conversation</h2>
+        <p class="feel">Feels like <b>WhatsApp itself</b>. No invented UI — the actual chat surface your client already uses, with quick-reply chips doing the work.</p>
+        <div class="sw"><i style="background:#075E54"></i><i style="background:#25D366"></i><i style="background:#ECE5DD"></i><i style="background:#DCF8C6"></i></div>
+        <p class="type">DM Sans, chat scale</p>
+      </div>
+      <div class="vote"><button class="y">Yes</button><button class="n2">No</button></div>
+    </article>
+
+    <!-- 6 -->
+    <article class="card" data-k="crm">
+      <div class="shot"><div class="mini m6">
+        <div class="hd"><h3>Pipeline</h3><span class="av"><i style="background:#F2A0B5"></i><i style="background:#9FD0F5"></i><i style="background:#C3B5F7"></i></span></div>
+        <div class="cols">
+          <div class="col"><u>New</u>
+            <div class="t"><i style="background:#9FD0F5"></i><b>Giriraj Resort</b><u>Bandarban · ৳85k</u></div>
+            <div class="t"><i style="background:#9FD0F5"></i><b>Surf Club</b><u>Cox's Bazar</u></div>
+          </div>
+          <div class="col"><u>Quoted</u>
+            <div class="t drag"><i style="background:#F7D08A"></i><b>Palm Riviera</b><u>Follow up Tue</u></div>
+          </div>
+          <div class="col"><u>Won</u>
+            <div class="t"><i style="background:#A8E6C4"></i><b>Nexus Innovation</b><u>Delivered</u></div>
+          </div>
+        </div>
+      </div></div>
+      <div class="meta">
+        <p class="n">06 · CRM pipeline</p>
+        <h2>Calm workspace</h2>
+        <p class="feel">Feels like <b>Notion / Trello</b>. Soft lilac-white, pastel tags, rounded cards, a card caught mid-drag. Friendly, not corporate.</p>
+        <div class="sw"><i style="background:#FBFAFF"></i><i style="background:#C3B5F7"></i><i style="background:#A8E6C4"></i><i style="background:#221D33"></i></div>
+        <p class="type">Outfit</p>
+      </div>
+      <div class="vote"><button class="y">Yes</button><button class="n2">No</button></div>
+    </article>
+
+  </div>
+
+  <div class="out">
+    <h3>Your picks — paste this back to me</h3>
+    <pre id="out">Nothing marked yet.</pre>
+    <button class="copy" id="copy">Copy</button>
+  </div>
+</div>
+
+<script>
+const NAMES = {
+  resort:'01 Resort — Editorial hospitality',
+  ecom:'02 E-commerce — Loud retail poster',
+  leads:'03 Lead scoring — Precise SaaS tool',
+  dash:'04 Retail dashboard — Ops console',
+  wa:'05 WhatsApp bot — Real conversation',
+  crm:'06 CRM — Calm workspace',
+};
+const state = {};
+document.getElementById('grid').addEventListener('click', e => {
+  const btn = e.target.closest('button'); if (!btn) return;
+  const card = btn.closest('.card'); const k = card.dataset.k;
+  const want = btn.classList.contains('y') ? 'yes' : 'no';
+  state[k] = state[k] === want ? undefined : want;
+  card.classList.toggle('yes', state[k] === 'yes');
+  card.classList.toggle('no', state[k] === 'no');
+  render();
+});
+function render(){
+  const yes = Object.keys(state).filter(k => state[k] === 'yes');
+  const no  = Object.keys(state).filter(k => state[k] === 'no');
+  if (!yes.length && !no.length) { document.getElementById('out').textContent = 'Nothing marked yet.'; return; }
+  let t = '';
+  if (yes.length) t += 'BUILD THESE:\n' + yes.map(k => '  ✓ ' + NAMES[k]).join('\n') + '\n';
+  if (no.length)  t += (t ? '\n' : '') + 'WRONG, REDO:\n' + no.map(k => '  ✗ ' + NAMES[k]).join('\n') + '\n';
+  const un = Object.keys(NAMES).filter(k => !state[k]);
+  if (un.length) t += '\nNOT MARKED:\n' + un.map(k => '  · ' + NAMES[k]).join('\n');
+  document.getElementById('out').textContent = t;
+}
+document.getElementById('copy').addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(document.getElementById('out').textContent);
+    const b = document.getElementById('copy'); b.textContent = 'Copied'; setTimeout(()=>b.textContent='Copy',1400);
+  } catch { /* clipboard blocked — the text is selectable above */ }
+});
+</script>
+</body>
+</html>
